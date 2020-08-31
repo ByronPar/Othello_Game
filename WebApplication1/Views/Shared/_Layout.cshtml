@@ -20,7 +20,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink(" ", "Index", "Home")</li>
+                    <li>@Html.ActionLink("s", "Index", "Home")</li>
                     <li>@Html.ActionLink("Login", "About", "Home")</li>
                     <li>@Html.ActionLink("Registro", "Contact", "Home")</li>
                 </ul>
@@ -30,10 +30,11 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
+        <footer class="bg-primary">
+            <p>&copy; @DateTime.Now.Year - Juego Othello </p>
+        </footer>
     </div>
-    <footer class="bg-primary">
-        <p>&copy; @DateTime.Now.Year - Juego Othello </p>
-    </footer>
+    
         
     
 
