@@ -141,6 +141,7 @@
     <Content Include="img\4.png" />
     <Content Include="img\facebook.png" />
     <Content Include="img\github.png" />
+    <Content Include="img\log.jpg" />
     <Content Include="img\sticker.png" />
     <Content Include="img\twitter.png" />
     <Content Include="Scripts\bootstrap.js" />
@@ -167,8 +168,8 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\Registro.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
