@@ -29,8 +29,9 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li>@Html.ActionLink("Iniciar Sesión   ó   Registro ", "Login", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-              </ul>
+                    <li>@Html.ActionLink("Iniciar Sesión     ", "Login", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                    <li>@Html.ActionLink("Registrarse", "Registro", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                </ul>
             </div>
         </div>
     </div>
