@@ -326,7 +326,6 @@
     <Content Include="Views\Jugador\Details.cshtml" />
     <Content Include="Views\Jugador\Edit.cshtml" />
     <Content Include="Views\Jugador\Index.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -13,28 +13,28 @@ namespace Othello_Game.Controllers
         }
         //
         // GET: /Home/Login
-        [AllowAnonymous]
+        [HttpGet]
         public ActionResult Login(string message = "")
         {
             ViewBag.Message = message;
+            ViewBag.Paises = new SelectList(db.Pais, "id_pais", "nombre");
             return View();
         }
 
         //
         // POST: /Home/Login
         [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public ActionResult Login(string username, string contrasenia)
         {
             var jugador = db.Jugador.FirstOrDefault(e => e.id_usuario == username && e.contrasenia == contrasenia);
             if (jugador != null)
             {
-                return View(jugador);
+                return RedirectToAction("Index", "Jugador", jugador);
             }
             else
             {
-                return RedirectToAction("Login", "Home", "El usuario no existe o la contraseña es incorrecta");
+
+                return RedirectToAction("Login", "Home", new { message = "El usuario no existe o la contraseña es incorrecta" });
             }
 
         }
@@ -48,7 +48,6 @@ namespace Othello_Game.Controllers
         //
         // POST: /Account/LogOff
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             return RedirectToAction("Index", "Home");

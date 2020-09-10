@@ -28,7 +28,9 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                 </ul>
-                @Html.Partial("_LoginPartial")
+                <ul class="nav navbar-nav navbar-right">
+                    <li>@Html.ActionLink("Iniciar Sesión   ó   Registro ", "Login", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+              </ul>
             </div>
         </div>
     </div>

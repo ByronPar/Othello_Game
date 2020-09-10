@@ -1,6 +1,9 @@
-﻿@{
-    ViewBag.Title = "About";
+﻿
+@{
+    ViewBag.Title = "Inicio de Sesión";
 }
+
+
 <style type="text/css">
     body {
         margin: 0;
@@ -64,6 +67,8 @@
             display: none;
         }
 
+        .select,
+        .select.option,
         .login-html .tab,
         .login-form .group .label,
         .login-form .group .button {
@@ -96,6 +101,7 @@
             margin-bottom: 15px;
         }
 
+            
             .login-form .group .label,
             .login-form .group .input,
             .login-form .group .button {
@@ -104,13 +110,14 @@
                 display: block;
             }
 
-            .login-form .group .input,
-            .login-form .group .button {
-                border: none;
-                padding: 15px 20px;
-                border-radius: 25px;
-                background: rgba(255,255,255,.1);
-            }
+                
+                .login-form .group .input,
+                .login-form .group .button {
+                    border: none;
+                    padding: 15px 20px;
+                    border-radius: 25px;
+                    background: rgba(255,255,255,.1);
+                }
 
             .login-form .group input[data-type="password"] {
                 text-security: circle;
@@ -191,80 +198,54 @@
     .foot-lnk {
         text-align: center;
     }
-
 </style>
+
 <div class="login-wrap">
     <div class="login-html">
+        @{
+            if (!string.IsNullOrEmpty(ViewBag.Message))
+            {
+                //message tiene valor
+
+                <div class="alert alert-danger" data-dismiss="alert" id="succes-alert" role="alert">@ViewBag.Message</div>
+                <script>
+                    //autoclose
+                    window.setTimeout(function () {
+                        $(".alert").fadeTo(1500, 0).slideDown(1000, function () {
+                            $(this).remove();
+                        });
+                    }, 3000);  // 3 segundos y desaparece
+                </script>
+
+            }
+
+        }
         <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Iniciar Sesión</label>
-        <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Registrarse</label>
+        
         <div class="login-form">
+            <!--   ventana de login -------------------------------------------------------------------- -->
             <div class="sign-in-htm">
-                <div class="hr"></div>
-                <div class="group">
-                    <label for="user" class="label">Username</label>
-                    <input id="user" type="text" class="input">
-                </div>
-                <div class="group">
-                    <label for="pass" class="label">Password</label>
-                    <input id="pass" type="password" class="input" data-type="password">
-                </div>
-                <div class="group">
-                    <input type="submit" class="button" value="Iniciar Sesión">
-                </div>
-                <div class="hr"></div>
-                <div class="foot-lnk">
-                    <a>DISFRUTA DEL JUEGO DE LA MENTE</a>
-                </div>
+                <form action="/Home/Login" method="post">
+                    <div class="hr"></div>
+                    <div class="group">
+                        <label for="user" class="label">Username</label>
+                        <center><input id="username" type="text" class="input" name="username"></center>
+                    </div>
+                    <div class="group">
+                        <label for="pass" class="label">Password</label>
+                        <center><input id="contrasenia" type="password" class="input" data-type="password" name="contrasenia"></center>
+                    </div>
+                    <div class="group">
+                        <button class="button" type="submit">Iniciar Sesion</button>
+                    </div>
+                    <div class="hr"></div>
+                    <div class="foot-lnk">
+                        <a>DISFRUTA DEL JUEGO DE LA MENTE</a>
+                    </div>
+                    <div class="hr"></div>
+                </form>
             </div>
-               <!--  estilo html de registro-->
-            <div class="sign-up-htm">
-                <div class="group">
-                    <label for="name" class="label">Nombre Completo</label>
-                    <input id="name" type="text" class="input">
-                </div>
-                <div class="group">
-                    <label for="apellido" class="label">Apellidos</label>
-                    <input id="apellido" type="text" class="input">
-                </div>
-                <div class="group">
-                    <label for="user" class="label">Username</label>
-                    <input id="user" type="text" class="input">
-                </div>
-                <div class="group">
-                    <label for="pass" class="label">Password</label>
-                    <input id="pass" type="password" class="input" data-type="password">
-                </div>
-
-
-                <!--modificar estos dos campos-->
-
-                <div class="group">
-                    <label for="pass" class="label">Fecha de Nacimiento</label>
-                    <input id="pass" type="password" class="input" data-type="password">
-                </div>
-                <div class="group">
-                    <label for="pass" class="label">Pais</label>
-                    <input id="pass" type="password" class="input" data-type="password">
-                </div>
-
-
-
-
-
-
-                <div class="group">
-                    <label for="pass" class="label">Email Address</label>
-                    <input id="pass" type="text" class="input">
-                </div>
-                <div class="group">
-                    <input type="submit" class="button" value="Registrarse">
-                </div>
-                <div class="hr"></div>
-                <div class="foot-lnk">
-                    <label for="tab-1">Si ya Estas Registrado , no debes estar aqui   :)</label>
-                </div>
-            </div>
-            <!--  --------------------------------------------------------------------- -->
+            
         </div>
     </div>
 </div>
