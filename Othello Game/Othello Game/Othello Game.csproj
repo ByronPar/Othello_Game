@@ -276,6 +276,7 @@
     <Content Include="img\facebook.png" />
     <Content Include="img\github.png" />
     <Content Include="img\log.jpg" />
+    <Content Include="img\perfil.png" />
     <Content Include="img\sticker.png" />
     <Content Include="img\twitter.png" />
     <Content Include="Models\OthelloDataBase.Context.tt">
@@ -326,7 +327,7 @@
     <Content Include="Views\Jugador\Details.cshtml" />
     <Content Include="Views\Jugador\Edit.cshtml" />
     <Content Include="Views\Jugador\Index.cshtml" />
-    <Content Include="Views\Home\Registro.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,10 +10,12 @@ using Othello_Game.Models;
 
 namespace Othello_Game.Controllers
 {
+    
     public class JugadorController : Controller
     {
         private Othello_GameEntities db = new Othello_GameEntities();
 
+        [Authorize]
         // GET: Jugador
         public ActionResult Index()
         {
@@ -21,9 +23,12 @@ namespace Othello_Game.Controllers
             return View(jugador.ToList());
         }
 
+        [Authorize]
         // GET: Jugador/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details()
+           // id = User.Identity.Name;
         {
+            string id = User.Identity.Name;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -35,10 +40,23 @@ namespace Othello_Game.Controllers
             }
             return View(jugador);
         }
-
+        
+        
         // GET: Jugador/Create
-        public ActionResult Create()
+        public ActionResult Create(string message = "")
         {
+            if (message == "exito")
+            {
+                ViewBag.Message2 = "El usuario fue creado con Exito";
+            }
+            else if (message == "fracaso")
+            {
+                ViewBag.Message = "Error, el Usuario ya existe o dejo un campo vacio";
+            }
+            else {
+                ViewBag.Message = message;
+            }
+            
             ViewBag.id_pais = new SelectList(db.Pais, "id_pais", "nombre");
             return View();
         }
@@ -49,15 +67,20 @@ namespace Othello_Game.Controllers
         [HttpPost]
         public ActionResult Create([Bind(Include = "id_usuario,nombres,apellidos,contrasenia,fecha_nacimiento,correo,id_pais")] Jugador jugador)
         {
-            if (ModelState.IsValid)
-            {
+            
+            var new_jugador = db.Jugador.FirstOrDefault(e => e.id_usuario == jugador.id_usuario);
+            if (new_jugador == null && ModelState.IsValid && jugador.id_pais != 0 && jugador.nombres != null
+                && jugador.apellidos != null && jugador.id_usuario != null 
+                && jugador.contrasenia != null && jugador.correo != null)
+            {// significa que los datos son correctos porque no hay registro de ese usuario
                 db.Jugador.Add(jugador);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Create", "Jugador", new { message = "exito" });
             }
-
-            ViewBag.id_pais = new SelectList(db.Pais, "id_pais", "nombre", jugador.id_pais);
-            return View(jugador);
+            else
+            { // significa que el usario ya existe
+                return RedirectToAction("Create", "Jugador", new { message = "fracaso" });
+            }
         }
 
         // GET: Jugador/Edit/5

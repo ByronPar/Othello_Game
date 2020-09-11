@@ -4,84 +4,208 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
 
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Jugador</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.id_usuario, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.id_usuario, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.id_usuario, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <style type="text/css">
+        body {
+            margin: 0;
+            color: #6a6f8c;
+            background: #c8c8c8;
+            font: 600 16px/18px 'Open Sans',sans-serif;
+        }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.nombres, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.nombres, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.nombres, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        a {
+            color: inherit;
+            text-decoration: none
+        }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.apellidos, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.apellidos, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.apellidos, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        .login-wrap {
+            width: 100%;
+            margin: auto;
+            max-width: 525px;
+            min-height: 970px;
+            position: relative;
+            background: url(../../img/log.jpg) no-repeat center;
+            box-shadow: 0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
+        }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.contrasenia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.contrasenia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.contrasenia, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        .login-html {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            padding: 90px 70px 50px 70px;
+            background: rgba(40,57,101,.9);
+        }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.fecha_nacimiento, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.fecha_nacimiento, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.fecha_nacimiento, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            .login-html .sign-in-htm,
+            .login-html .sign-up-htm {
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                position: absolute;
+                transition: all .4s linear;
+            }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.correo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.correo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.correo, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            .login-html .sign-in,
+            .login-html .sign-up,
+            .login-form .group .check {
+                display: none;
+            }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.id_pais, "id_pais", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("id_pais", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.id_pais, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            .select,
+            .select.option,
+            .login-html .tab,
+            .login-form .group .label,
+            .login-form .group .button {
+                text-transform: uppercase;
+            }
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            .login-html .tab {
+                font-size: 22px;
+                margin-right: 15px;
+                padding-bottom: 5px;
+                margin: 0 15px 10px 0;
+                display: inline-block;
+                border-bottom: 2px solid transparent;
+            }
+
+            .login-html .sign-in:checked + .tab,
+            .login-html .sign-up:checked + .tab {
+                color: #fff;
+                border-color: #1161ee;
+            }
+
+        .login-form {
+            min-height: 345px;
+            position: relative;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+
+            .login-form .group {
+                margin-bottom: 15px;
+            }
+
+                .login-form .group .label,
+                .login-form .group .input,
+                .login-form .group .button {
+                    width: 100%;
+                    color: #fff;
+                    display: block;
+                }
+
+                .login-form .group .input,
+                .login-form .group .button {
+                    border: none;
+                    padding: 15px 20px;
+                    border-radius: 25px;
+                    background: rgba(255,255,255,.1);
+                }
+
+                .login-form .group .label {
+                    color: #aaa;
+                    font-size: 12px;
+                }
+
+                .login-form .group .button {
+                    background: #1161ee;
+                }
+
+        .hr {
+            height: 2px;
+            margin: 60px 0 50px 0;
+            background: rgba(255,255,255,.2);
+        }
+
+        .foot-lnk {
+            text-align: center;
+        }
+    </style>
+    <div class="login-wrap">
+        <div class="login-html">
+            @{
+                if (!string.IsNullOrEmpty(ViewBag.Message))
+                {
+                    //message tiene valor
+
+                    <div class="alert alert-danger" data-dismiss="alert" id="succes-alert" role="alert">@ViewBag.Message</div>
+                    
+
+                }
+                else if (!string.IsNullOrEmpty(ViewBag.Message2))
+                {
+                    //message tiene valor
+
+                    <div class="alert alert-success" data-dismiss="alert" id="succes-alert" role="alert">@ViewBag.Message2</div>
+
+                }
+                <script>
+                    //autoclose
+                    window.setTimeout(function () {
+                        $(".alert").fadeTo(1500, 0).slideDown(1000, function () {
+                            $(this).remove();
+                        });
+                    }, 2700);  // 3 segundos y desaparece
+                </script>
+
+
+            }
+            <center><input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Registro</label></center>
+            <div class="login-form">
+                <div class="sin-up-htm">
+                    <center>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="group">
+                            @Html.LabelFor(model => model.nombres, "Nombres", htmlAttributes: new { @class = "label" })
+                            @Html.EditorFor(model => model.nombres, new { htmlAttributes = new { @class = "input" } })
+                            @Html.ValidationMessageFor(model => model.nombres, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="group">
+                            @Html.LabelFor(model => model.apellidos, "Apellidos", htmlAttributes: new { @class = "label" })
+                            @Html.EditorFor(model => model.apellidos, new { htmlAttributes = new { @class = "input" } })
+                            @Html.ValidationMessageFor(model => model.apellidos, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="group">
+                            @Html.LabelFor(model => model.id_usuario, "Nombre de Usuario", htmlAttributes: new { @class = "label" })
+                            @Html.EditorFor(model => model.id_usuario, new { htmlAttributes = new { @class = "input" } })
+                            @Html.ValidationMessageFor(model => model.id_usuario, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="group">
+                            @Html.LabelFor(model => model.contrasenia, "Password", htmlAttributes: new { @class = "label" })
+                            @Html.EditorFor(model => model.contrasenia, new { htmlAttributes = new { @class = "input", @type = "password" } })
+                            @Html.ValidationMessageFor(model => model.contrasenia, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="group">
+                            @Html.LabelFor(model => model.fecha_nacimiento, "Fecha de Nacimiento", htmlAttributes: new { @class = "label" })
+                            @Html.EditorFor(model => model.fecha_nacimiento, new { htmlAttributes = new { @class = "input", @type = "date" } })
+                            @Html.ValidationMessageFor(model => model.fecha_nacimiento, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="group">
+                            @Html.LabelFor(model => model.id_pais, "Pais", htmlAttributes: new { @class = "label" })
+                            @Html.DropDownList("id_pais", (IEnumerable<SelectListItem>)ViewBag.id_pais, "Seleccionar Pais", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.id_pais, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="group">
+                            @Html.LabelFor(model => model.correo, "correo electronico", htmlAttributes: new { @class = "label" })
+                            @Html.EditorFor(model => model.correo, new { htmlAttributes = new { @class = "input", @type = "email" } })
+                            @Html.ValidationMessageFor(model => model.correo, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="group">
+                            <input type="submit" value="Registrarse" class="button" />
+                        </div>
+                    </center>
+                    <div class="hr"></div>
+                    <div class="foot-lnk">
+                        <label for="tab-1">Si ya Estas Registrado , no debes estar aqui   :)</label>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

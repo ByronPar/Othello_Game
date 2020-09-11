@@ -1,66 +1,133 @@
 ﻿@model Othello_Game.Models.Jugador
 
-@{
+@{ 
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Details";
 }
+<style type="text/css">
+body{
+  margin: 0;
+  padding: 0;
+  font-family: 'Raleway', sans-serif;
+}
 
-<h2>Details</h2>
+.photo{
+  width: 100%;
+  height: 700px;
+  position: center;
+  background: url(../../img/perfil.png) center;
+  background-size: cover;
+  overflow: hidden;
+}
 
-<div>
-    <h4>Jugador</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.nombres)
-        </dt>
+.photo-text{
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
-        <dd>
-            @Html.DisplayFor(model => model.nombres)
-        </dd>
+.overlay{
+  position:absolute;
+  z-index: 1;
+  width: 100%;
+  height: 700px;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, .35);
+}
 
-        <dt>
-            @Html.DisplayNameFor(model => model.apellidos)
-        </dt>
+.photo h4{
+  font-size: 60px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #FEFFFF;
+  margin: 10px;
+  cursor: pointer;
+  position: relative;
+  z-index: 998;
+}
 
-        <dd>
-            @Html.DisplayFor(model => model.apellidos)
-        </dd>
+.photo p{
+  width: 60%;
+  text-align: center;
+  letter-spacing: 1.5px;
+  color: #D7DADE;
+  position: relative;
+  z-index: 998;
+}
+    .photo dt,
+    .photo dd {
+        width: 65%;
+        text-align: left;
+        letter-spacing: 1.5px;
+        color: #e9ecf0;
+        position: relative;
+        z-index: 998;
+    }
+</style>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.contrasenia)
-        </dt>
+<section class="photo" id="inicio">
+    <br />
+    <div class="photo-text">
+        <h4 data-ix="skype">Tu Perfil</h4>
+        <br />
+        <dl class="dl-horizontal">
+            <dt>
+                Nombre Completo:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.nombres)
+            </dd>
+            <br />
+            <dt>
+                Apellidos:
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.contrasenia)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.apellidos)
+            </dd>
+            <br />
+            <dt>
+                Usuario:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.id_usuario)
+            </dd>
+            <br />
+            <dt>
+                Password:
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.fecha_nacimiento)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.contrasenia)
+            </dd>
+            <br />
+            <dt>
+                Fecha de Nacimiento:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.fecha_nacimiento.Day) - @Html.DisplayFor(model => model.fecha_nacimiento.Month) - @Html.DisplayFor(model => model.fecha_nacimiento.Year)
+            </dd>
+            <br />
+            <dt>
+                Correo Electronico:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.correo)
+            </dd>
+            <br />
+            <dt>
+                Pais:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Pais.nombre)
+            </dd>
+        </dl>
 
-        <dd>
-            @Html.DisplayFor(model => model.fecha_nacimiento)
-        </dd>
+    </div>
+    <div class="overlay"></div>
+</section>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.correo)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.correo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Pais.nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Pais.nombre)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id_usuario }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
