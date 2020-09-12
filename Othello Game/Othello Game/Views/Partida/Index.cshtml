@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Othello_Game.Models.Partida>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.color_siguiente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Jugador.nombres)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tipo_Partida.nombre)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.color_siguiente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Jugador.nombres)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tipo_Partida.nombre)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id_partida }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id_partida }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id_partida })
+        </td>
+    </tr>
+}
+
+</table>

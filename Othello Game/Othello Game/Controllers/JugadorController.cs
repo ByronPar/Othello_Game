@@ -67,7 +67,6 @@ namespace Othello_Game.Controllers
         [HttpPost]
         public ActionResult Create([Bind(Include = "id_usuario,nombres,apellidos,contrasenia,fecha_nacimiento,correo,id_pais")] Jugador jugador)
         {
-            
             var new_jugador = db.Jugador.FirstOrDefault(e => e.id_usuario == jugador.id_usuario);
             if (new_jugador == null && ModelState.IsValid && jugador.id_pais != 0 && jugador.nombres != null
                 && jugador.apellidos != null && jugador.id_usuario != null 

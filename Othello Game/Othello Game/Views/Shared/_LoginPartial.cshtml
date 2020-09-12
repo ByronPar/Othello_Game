@@ -1,19 +1,16 @@
 ﻿@if (User.Identity.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-    {
-        @Html.AntiForgeryToken()
 
-<ul class="nav navbar-nav navbar-right">
-    <li>@Html.ActionLink("Bienvenido "+User.Identity.Name, null, null, routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    <li>@Html.ActionLink("Ver Perfil", "Details", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    <li>@Html.ActionLink("Jugar Individual", "Login", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    <li>@Html.ActionLink("Multiplayer", "Create", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    <li>@Html.ActionLink("Torneo", "Login", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    <li>@Html.ActionLink("Reportes", "Create", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    <li>@Html.ActionLink("Cerra Sesión", "CerrarSesion", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-</ul>
-    }
+
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Bienvenido " + User.Identity.Name, null, null, routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("Ver Perfil", "Details", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("Jugar Individual", "Create", "Jugador_Partida", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("Multiplayer", "Details", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("Torneo", "Details", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("Reportes", "Details", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("Cerrar Sesión", "CerrarSesion", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
 }
 else
 {

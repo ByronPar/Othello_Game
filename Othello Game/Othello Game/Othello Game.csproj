@@ -216,6 +216,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JugadorController.cs" />
+    <Compile Include="Controllers\Jugador_PartidaController.cs" />
+    <Compile Include="Controllers\PartidaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -309,6 +311,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Tablero.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -328,6 +331,16 @@
     <Content Include="Views\Jugador\Edit.cshtml" />
     <Content Include="Views\Jugador\Index.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Jugador_Partida\Create.cshtml" />
+    <Content Include="Views\Jugador_Partida\Delete.cshtml" />
+    <Content Include="Views\Jugador_Partida\Details.cshtml" />
+    <Content Include="Views\Jugador_Partida\Edit.cshtml" />
+    <Content Include="Views\Jugador_Partida\Index.cshtml" />
+    <Content Include="Views\Partida\Create.cshtml" />
+    <Content Include="Views\Partida\Delete.cshtml" />
+    <Content Include="Views\Partida\Details.cshtml" />
+    <Content Include="Views\Partida\Edit.cshtml" />
+    <Content Include="Views\Partida\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
