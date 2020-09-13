@@ -1,0 +1,191 @@
+﻿body {
+    background-color: rgba(0, 92, 0, 0.9);
+    font-family: sans-serif;
+}
+
+.container2 {
+    background-color: rgba(3, 14, 104, 0.8);
+    box-shadow: 2px 2px 4px #222;
+    margin: 0 auto;
+    padding: 20px 0;
+    position: relative;
+    width: 700px;
+}
+
+.container-center {
+    margin: 0 auto;
+    position: relative;
+    width: 600px;
+}
+
+.message-container {
+    display: none;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.message {
+    background-color: #ddd;
+    box-shadow: 2px 2px 4px #222;
+    line-height: 90px;
+    margin: 40% auto 0;
+    opacity: .9;
+    text-align: center;
+    width: 50%;
+}
+
+.board {
+    background-color: #080;
+    border: solid 1px #000;
+    box-shadow: 2px 2px 4px #222;
+}
+
+.board-cells {
+    border-collapse: collapse;
+    margin: 10px;
+}
+
+.cell {
+    height: 70px;
+    width: 70px;
+}
+
+.valid {
+    background-color: #375cab;
+    cursor: pointer;
+}
+
+    .valid:hover {
+        background-color: #0d9fe8;
+    }
+
+.stone {
+    border-radius: 50%;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 4px #222;
+    height: 100%;
+    margin: auto;
+    transition: width .2s 0s linear, background-color 0s .2s linear;
+    width: 100%;
+}
+
+.black,
+.black-label,
+.black-bar {
+    background-color: #000;
+}
+
+.white,
+.white-label,
+.white-bar {
+    background-color: #fff;
+}
+
+.turn-effect {
+    width: 0;
+}
+
+.score-labels {
+    font-size: 0;
+    margin: 10px 0;
+}
+
+.score-label {
+    box-shadow: 2px 2px 4px #222;
+    box-sizing: border-box;
+    display: inline-block;
+    font-size: 16px;
+    padding: 5px 0;
+    text-align: center;
+    width: 30%;
+}
+
+.black-label {
+    border: solid 2px #000;
+    color: #fff;
+}
+
+.white-label {
+    border: solid 2px #fff;
+    color: #000;
+    margin-left: 40%;
+}
+
+.turn {
+    border: solid 2px #d22;
+    color: #d22;
+}
+
+.score-bars {
+    font-size: 0;
+}
+
+.score-bar {
+    box-shadow: 2px 2px 4px #222;
+    display: inline-block;
+    height: 38px;
+    transition: width .4s 0s ease;
+}
+
+.reset-container {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.start-container {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.start-overlay {
+    background-color: rgba(0, 0, 0, 0.95);
+    height: 100%;
+    opacity: .6;
+    position: absolute;
+    width: 100%;
+}
+
+.start-content {
+    background-color: #eee;
+    box-shadow: 2px 2px 4px #222;
+    margin: 25% auto 0;
+    overflow: auto;
+    position: relative;
+    width: 50%;
+}
+
+.start-title {
+    background-color: #080;
+    color: #ddd;
+    font-size: 2em;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.start-p {
+    text-align: center;
+}
+
+.start-p-span {
+    display: inline-block;
+    width: 75px;
+}
+
+.button {
+    background-color: #080;
+    border: none;
+    color: #ddd;
+    cursor: pointer;
+    font-size: 16px;
+    height: 38px;
+    outline: none;
+    width: 30%;
+}
+
+    .button:hover {
+        background-color: #0a0;
+    }

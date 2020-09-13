@@ -1,201 +1,201 @@
-﻿let blackIsYou = true;
-let whiteIsYou = true;
-let isBlackTurn = true;
+﻿let NEGRO = true;
+let BLANCO = true;
+let turnoNegro = true;
 
-const getCellElement = function (row, col) {
-    return document.getElementById('cell-' + row + '-' + col);
+const obtenerElementoCelda = function (fila, columna) {
+    return document.getElementById('cell-' + fila + '-' + columna);
 };
 
-const addStone = function (row, col, className) {
-    const cell = getCellElement(row, col);
-    const stone = document.createElement('div');
-    stone.classList.add('stone');
-    stone.classList.add(className);
-    cell.appendChild(stone);
+const agregarFicha = function (fila, columna, nombreClase) {
+    const celda = obtenerElementoCelda(fila, columna);
+    const ficha = document.createElement('div');
+    ficha.classList.add('stone');
+    ficha.classList.add(nombreClase);
+    celda.appendChild(ficha);
 };
 
-const hasClass = function (element, className) {
-    for (let i = 0; i < element.classList.length; i++) {
-        if (element.classList[i] === className) {
+const tieneClase = function (elemento, nombreClase) {
+    for (let i = 0; i < elemento.classList.length; i++) {
+        if (elemento.classList[i] === nombreClase) {
             return true;
         }
     }
     return false;
 };
 
-const removeClassAll = function (className) {
-    const elements = document.getElementsByClassName(className);
-    for (let i = elements.length; i > 0; i--) {
-        elements[i - 1].classList.remove(className);
+const removerTodaClase = function (nombreClase) {
+    const elementos = document.getElementsByClassName(nombreClase);
+    for (let i = elementos.length; i > 0; i--) {
+        elementos[i - 1].classList.remove(nombreClase);
     }
 };
 
-const isMyStone = function (cell) {
-    if ((isBlackTurn && hasClass(cell.children[0], 'black')) ||
-        (!isBlackTurn && hasClass(cell.children[0], 'white'))) {
+const esMiFicha = function (celda) {
+    if ((turnoNegro && tieneClase(celda.children[0], 'black')) ||
+        (!turnoNegro && tieneClase(celda.children[0], 'white'))) {
         return true;
     }
     return false;
 };
 
-const isValidLine = function (row, col, addRow, addCol) {
-    let rowCount = addRow;
-    let colCount = addCol;
+const lineaValida = function (fila, columna, agregarFila, agregarColumna) {
+    let conteoFila = agregarFila;
+    let conteoColumna = agregarColumna;
     for (let i = 0; i < 7; i++) {
-        const cell = getCellElement((row - rowCount), (col - colCount));
-        if (!cell || !cell.children.length) {
+        const celda = obtenerElementoCelda((fila - conteoFila), (columna - conteoColumna));
+        if (!celda || !celda.children.length) {
             return false;
         }
-        if (isMyStone(cell)) {
-            if (rowCount === addRow && colCount === addCol) {
+        if (esMiFicha(celda)) {
+            if (conteoFila === agregarFila && conteoColumna === agregarColumna) {
                 return false;
             } else {
                 return true;
             }
         }
-        rowCount = rowCount + addRow;
-        colCount = colCount + addCol;
+        conteoFila = conteoFila + agregarFila;
+        conteoColumna = conteoColumna + agregarColumna;
     }
     return false;
 };
 
-const isValidCell = function (row, col) {
-    if (isValidLine(row, col, -1, -1) ||
-        isValidLine(row, col, -1, 0) ||
-        isValidLine(row, col, -1, 1) ||
-        isValidLine(row, col, 0, -1) ||
-        isValidLine(row, col, 0, 1) ||
-        isValidLine(row, col, 1, -1) ||
-        isValidLine(row, col, 1, 0) ||
-        isValidLine(row, col, 1, 1)) {
+const celdaValida = function (fila, columna) {
+    if (lineaValida(fila, columna, -1, -1) ||
+        lineaValida(fila, columna, -1, 0) ||
+        lineaValida(fila, columna, -1, 1) ||
+        lineaValida(fila, columna, 0, -1) ||
+        lineaValida(fila, columna, 0, 1) ||
+        lineaValida(fila, columna, 1, -1) ||
+        lineaValida(fila, columna, 1, 0) ||
+        lineaValida(fila, columna, 1, 1)) {
         return true;
     }
 };
 
-const turnStones = function (cells) {
-    for (let i = 0; i < cells.length; i++) {
-        const cell = document.getElementById(cells[i]);
-        if (isBlackTurn) {
-            cell.children[0].classList.remove('white');
-            cell.children[0].classList.add('black');
-            cell.children[0].classList.add('turn-effect');
+const girarFicha = function (celdas) {
+    for (let i = 0; i < celdas.length; i++) {
+        const celda = document.getElementById(celdas[i]);
+        if (turnoNegro) {
+            celda.children[0].classList.remove('white');
+            celda.children[0].classList.add('black');
+            celda.children[0].classList.add('turn-effect');
             setTimeout(function () {
-                cell.children[0].classList.remove('turn-effect');
+                celda.children[0].classList.remove('turn-effect');
             }, 200);
         } else {
-            cell.children[0].classList.remove('black');
-            cell.children[0].classList.add('white');
-            cell.children[0].classList.add('turn-effect');
+            celda.children[0].classList.remove('black');
+            celda.children[0].classList.add('white');
+            celda.children[0].classList.add('turn-effect');
             setTimeout(function () {
-                cell.children[0].classList.remove('turn-effect');
+                celda.children[0].classList.remove('turn-effect');
             }, 200);
         }
     }
 };
 
-const turnLineStones = function (row, col, addRow, addCol) {
-    let rowCount = addRow;
-    let colCount = addCol;
-    let cells = [];
+const girarLineaFicha = function (fila, columna, agregarFila, agregarColumna) {
+    let conteoFila = agregarFila;
+    let conteoColumna = agregarColumna;
+    let celdas = [];
     for (let i = 0; i < 7; i++) {
-        const cell = getCellElement((row - rowCount), (col - colCount));
-        if (!cell || !cell.children.length) {
+        const celda = obtenerElementoCelda((fila - conteoFila), (columna - conteoColumna));
+        if (!celda || !celda.children.length) {
             return;
         }
-        if (isMyStone(cell)) {
-            if (rowCount !== addRow || colCount !== addCol) {
-                turnStones(cells);
+        if (esMiFicha(celda)) {
+            if (conteoFila !== agregarFila || conteoColumna !== agregarColumna) {
+                girarFicha(celdas);
             }
             return;
         }
-        cells.push(cell.id);
-        rowCount = rowCount + addRow;
-        colCount = colCount + addCol;
+        celdas.push(celda.id);
+        conteoFila = conteoFila + agregarFila;
+        conteoColumna = conteoColumna + agregarColumna;
     }
     return;
 };
 
-const turnAllStones = function (row, col) {
-    turnLineStones(row, col, -1, -1);
-    turnLineStones(row, col, -1, 0);
-    turnLineStones(row, col, -1, 1);
-    turnLineStones(row, col, 0, -1);
-    turnLineStones(row, col, 0, 1);
-    turnLineStones(row, col, 1, -1);
-    turnLineStones(row, col, 1, 0);
-    turnLineStones(row, col, 1, 1);
+const girarTodaFicha = function (row, col) {
+    girarLineaFicha(row, col, -1, -1);
+    girarLineaFicha(row, col, -1, 0);
+    girarLineaFicha(row, col, -1, 1);
+    girarLineaFicha(row, col, 0, -1);
+    girarLineaFicha(row, col, 0, 1);
+    girarLineaFicha(row, col, 1, -1);
+    girarLineaFicha(row, col, 1, 0);
+    girarLineaFicha(row, col, 1, 1);
 };
 
-const searchValidCells = function () {
-    for (let row = 0; row < 8; row++) {
-        for (let col = 0; col < 8; col++) {
-            const cell = getCellElement(row, col);
-            if (cell.children.length) continue;
-            if (isValidCell(row, col)) {
-                cell.classList.add('valid');
+const buscarCeldasValidas = function () {
+    for (let fila = 0; fila < 8; fila++) {
+        for (let columna = 0; columna < 8; columna++) {
+            const celda = obtenerElementoCelda(fila, columna);
+            if (celda.children.length) continue;
+            if (celdaValida(fila, columna)) {
+                celda.classList.add('valid');
             }
         }
     }
 };
 
-const updateScore = function () {
-    const black = document.getElementsByClassName('black');
-    const white = document.getElementsByClassName('white');
-    const all = black.length + white.length;
-    const blackRatio = black.length * 100 / all;
-    const whiteRatio = white.length * 100 / all;
-    document.getElementById('black-score').innerText = black.length;
-    document.getElementById('white-score').innerText = white.length;
-    document.getElementById('black-bar').style.width = blackRatio + '%';
-    document.getElementById('white-bar').style.width = whiteRatio + '%';
+const actualizarPuntuacion = function () {
+    const negro = document.getElementsByClassName('black');
+    const blanco = document.getElementsByClassName('white');
+    const todo = negro.length + blanco.length;   // cantidad de fichas totales que hay actualmente
+    const radioNegro = negro.length * 100 / todo;
+    const radioBlanco = blanco.length * 100 / todo;
+    document.getElementById('black-score').innerText = negro.length; //para colocar la barra de cuanto lleva cada jugador
+    document.getElementById('white-score').innerText = blanco.length;
+    document.getElementById('black-bar').style.width = radioNegro + '%'; // la barra pintada de porcentaje de cuanto lleva cada jugador
+    document.getElementById('white-bar').style.width = radioBlanco + '%';
 };
 
-const showMessageNoPlace = function () {
-    if (isBlackTurn) {
-        document.getElementById('message').innerText = "Black can't put.";
+const showMsjNoHayLugar = function () {
+    if (turnoNegro) {
+        document.getElementById('message').innerText = "Negro no puede jugar";
     } else {
-        document.getElementById('message').innerText = "White can't put.";
+        document.getElementById('message').innerText = "Blanco no puede jugar";
     }
     document.getElementById('message-container').style.display = 'block';
 };
 
-const isTheEnd = function () {
-    const stones = document.getElementsByClassName('stone');
-    if (stones.length === 8 * 8) {
+const esElFinal = function () {
+    const ficha = document.getElementsByClassName('stone');
+    if (ficha.length === 8 * 8) {
         return true;
     }
-    const black = document.getElementsByClassName('black');
-    if (black.length === 0) {
+    const negro = document.getElementsByClassName('black');
+    if (negro.length === 0) {
         return true;
     }
-    const white = document.getElementsByClassName('white');
-    if (white.length === 0) {
+    const blanco = document.getElementsByClassName('white');
+    if (blanco.length === 0) {
         return true;
     }
 };
 
-const endGame = function () {
+const finJuego = function () {
     document.getElementById('white-label').classList.remove('turn');
     document.getElementById('black-label').classList.remove('turn');
-    const black = document.getElementsByClassName('black');
-    const white = document.getElementsByClassName('white');
-    if (black.length > white.length) {
-        document.getElementById('message').innerText = 'Black win.';
-    } else if (black.length < white.length) {
-        document.getElementById('message').innerText = 'White win.';
+    const negro = document.getElementsByClassName('black');
+    const blanco = document.getElementsByClassName('white');
+    if (negro.length > blanco.length) {
+        document.getElementById('message').innerText = 'Ficha negro Gano';
+    } else if (negro.length < blanco.length) {
+        document.getElementById('message').innerText = 'Ficha Blanca Gano';
     } else {
         document.getElementById('message').innerText = 'Draw.';
     }
     document.getElementById('message-container').style.display = 'block';
 };
 
-const clickCorner = function (elements) {
+const clickEsquina = function (elements) {
     for (let i = 0; i < elements.length; i++) {
-        const splitedId = elements[i].id.split('-');
-        if (splitedId[1] === '0' && splitedId[2] === '0' ||
-            splitedId[1] === '0' && splitedId[2] === '7' ||
-            splitedId[1] === '7' && splitedId[2] === '0' ||
-            splitedId[1] === '7' && splitedId[2] === '7') {
+        const splitID = elements[i].id.split('-');
+        if (splitID[1] === '0' && splitID[2] === '0' ||
+            splitID[1] === '0' && splitID[2] === '7' ||
+            splitID[1] === '7' && splitID[2] === '0' ||
+            splitID[1] === '7' && splitID[2] === '7') {
             elements[i].click();
             return true;
         }
@@ -203,16 +203,16 @@ const clickCorner = function (elements) {
     return false;
 };
 
-const clickCpu = function (elements) {
-    if ((isBlackTurn && !blackIsYou) || (!isBlackTurn && !whiteIsYou)) {
-        if (!clickCorner(elements)) {
-            elements[Math.floor(Math.random() * elements.length)].click();
+const clickCpu = function (elementos) {
+    if ((turnoNegro && !NEGRO) || (!turnoNegro && !BLANCO)) {
+        if (!clickEsquina(elementos)) {
+            elementos[Math.floor(Math.random() * elementos.length)].click();
         }
     }
 };
 
-const updateTurnLabels = function () {
-    if (isBlackTurn) {
+const actualizarTurnoLabel = function () {
+    if (turnoNegro) {
         document.getElementById('white-label').classList.remove('turn');
         document.getElementById('black-label').classList.add('turn');
     } else {
@@ -221,113 +221,178 @@ const updateTurnLabels = function () {
     }
 };
 
-const updateTurnSecond = function (updateBlack) {
-    isBlackTurn = updateBlack;
-    updateTurnLabels();
-    searchValidCells();
-    const elements = document.getElementsByClassName('valid');
-    if (elements.length === 0) {
-        showMessageNoPlace();
+const actualizarTurnoSegundo = function (actualizarNegro) {
+    turnoNegro = actualizarNegro;
+    actualizarTurnoLabel();
+    buscarCeldasValidas();
+    const elementos = document.getElementsByClassName('valid');
+    if (elementos.length === 0) {
+        showMsjNoHayLugar();
         setTimeout(function () {
-            endGame();
+            finJuego();
         }, 2000);
     } else {
-        clickCpu(elements);
+        clickCpu(elementos);
     }
 };
 
-const updateTurn = function (updateBlack) {
-    isBlackTurn = updateBlack;
-    updateTurnLabels();
-    searchValidCells();
-    const elements = document.getElementsByClassName('valid');
-    if (elements.length === 0) {
-        showMessageNoPlace();
+const actualizarTurno = function (actualizarNegro) {
+    turnoNegro = actualizarNegro;    //inicia como true el negro siempre
+    actualizarTurnoLabel();
+    buscarCeldasValidas();
+    const elementos = document.getElementsByClassName('valid');
+    if (elementos.length === 0) {
+        showMsjNoHayLugar();
         setTimeout(function () {
             document.getElementById('message-container').style.display = '';
-            updateTurnSecond(!isBlackTurn);
+            actualizarTurnoSegundo(!turnoNegro);
         }, 2000);
     } else {
-        clickCpu(elements);
+        clickCpu(elementos);
     }
 };
 
-const addInitStones = function () {
-    addStone(3, 3, 'white');
-    addStone(3, 4, 'black');
-    addStone(4, 3, 'black');
-    addStone(4, 4, 'white');
+const agregarFichasIniciales = function () {
+    agregarFicha(3, 3, 'white');
+    agregarFicha(3, 4, 'black');
+    agregarFicha(4, 3, 'black');
+    agregarFicha(4, 4, 'white');
 };
 
+const agregarFichasInicialesXML = function (elementos) {
+    for (var i = 0; i < elementos.length; i++) {
+        switch (i[1]) {
+            case 'A':
+                agregarFicha(i[0], 0, i[2]);
+            case 'B':
+                agregarFicha(i[0], 1, i[2]);
+            case 'C':
+                agregarFicha(i[0], 2, i[2]);
+            case 'D':
+                agregarFicha(i[0], 3, i[2]);
+            case 'E':
+                agregarFicha(i[0], 4, i[2]);
+            case 'F':
+                agregarFicha(i[0], 5, i[2]);
+            case 'G':
+                agregarFicha(i[0], 6, i[2]);
+            case 'H':
+                agregarFicha(i[0], 7, i[2]);
+        }
+        
+    }
+}
+
 const init = function () {
-    blackIsYou = true;
-    whiteIsYou = true;
-    addInitStones();
-    updateScore();
-    updateTurn(true);
+    NEGRO = true;
+    BLANCO = true;
+    agregarFichasIniciales();
+    actualizarPuntuacion();
+    actualizarTurno(true);
     document.getElementById('start-container').style.display = '';
 };
 
-const onClickCell = function () {
-    if (!hasClass(this, 'valid')) return;
-    removeClassAll('valid');
-    const splitedId = this.id.split('-');
-    if (isBlackTurn) {
-        addStone(splitedId[1], splitedId[2], 'black');
+const initCargaXML = function (elementos,turno) {
+    NEGRO = true;
+    BLANCO = true;
+    agregarFichasInicialesXML(elementos);
+    actualizarPuntuacion();
+    if (turno == 'negro') {
+        actualizarTurno(true);
     } else {
-        addStone(splitedId[1], splitedId[2], 'white');
+        actualizarTurno(false);
     }
-    turnAllStones(splitedId[1], splitedId[2]);
-    updateScore();
+    document.getElementById('start-container').style.display = '';
+}
+
+const clickCelda = function () {
+    if (!tieneClase(this, 'valid')) return;
+    removerTodaClase('valid');
+    const splitedId = this.id.split('-');
+    if (turnoNegro) {
+        agregarFicha(splitedId[1], splitedId[2], 'black');
+    } else {
+        agregarFicha(splitedId[1], splitedId[2], 'white');
+    }
+    girarTodaFicha(splitedId[1], splitedId[2]);
+    actualizarPuntuacion();
     setTimeout(function () {
-        if (isTheEnd()) {
-            endGame();
+        if (esElFinal()) {
+            finJuego();
             return;
         }
-        updateTurn(!isBlackTurn);
+        actualizarTurno(!turnoNegro);
     }, 400);
 };
 
-const onClickReset = function () {
+const clickReiniciar = function () {
     document.getElementById('message-container').style.display = '';
-    removeClassAll('valid');
-    const stones = document.getElementsByClassName('stone');
-    for (let i = stones.length; i > 0; i--) {
-        const parent = stones[i - 1].parentNode;
-        parent.removeChild(stones[i - 1]);
+    removerTodaClase('valid');
+    const fichas = document.getElementsByClassName('stone');
+    for (let i = fichas.length; i > 0; i--) {
+        const padre = fichas[i - 1].parentNode;
+        padre.removeChild(fichas[i - 1]);
     }
     init();
 };
 
-const onClickStart = function () {
-    const black = document.getElementsByName('black');
-    if (black[0].checked) {
-        blackIsYou = true;
+const clickIniciar = function () {
+    const negro = document.getElementsByName('black');
+    if (negro[0].checked) {
+        NEGRO = true;
+        BLANCO = false;
     } else {
-        blackIsYou = false;
-    }
-    const white = document.getElementsByName('white');
-    if (white[0].checked) {
-        whiteIsYou = true;
-    } else {
-        whiteIsYou = false;
+        NEGRO = false;
+        BLANCO = true;
     }
     document.getElementById('start-container').style.display = 'none';
-    updateTurn(true);
+    actualizarTurno(true);
 };
 
-const addEvents = function () {
-    const cells = document.getElementsByClassName('cell');
-    for (let i = 0; i < cells.length; i++) {
-        cells[i].addEventListener('click', onClickCell, false);
+const clickCargar = function () {
+    var datos = document.getElementById('url').value;
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            cargarXML(this);
+        }
+    };
+    xhr.open("GET", datos, true);
+    xhr.send();
+}
+
+const cargarXML = function (xml) {
+    var docXML = xml.responseXML;
+    var elementos = []
+    var fichas = docXML.getElementByTagName("ficha");
+    for (var i = 0; i < fichas.length; i++) {
+        elemento = []
+        elemento[0] = ficha[i].getElementByTagName("fila")[0].textContent;
+        elemento[1] = ficha[i].getElementByTagName("columna")[0].textContent;
+        elemento[2] = ficha[i].getElementByTagName("color")[0].textContent;
+        elementos.push(elemento);
     }
-    const reset = document.getElementById('reset');
-    reset.addEventListener('click', onClickReset, false);
-    const start = document.getElementById('start');
-    start.addEventListener('click', onClickStart, false);
+    var turno = docXML.getElementByTagName("siguienteTiro");
+    for (var i = 0; i < turno.length; i++) {
+        turno2 = turno[i].getElementByTagName("color")[0].textContent;
+    }
+    initCargaXML(elementos,turno2);
+}
+
+const agregarEventos = function () {
+    const celdas = document.getElementsByClassName('cell');
+    for (let i = 0; i < celdas.length; i++) {
+        celdas[i].addEventListener('click', clickCelda, false);
+    }
+    const reiniciar = document.getElementById('reiniciar');
+    reiniciar.addEventListener('click', clickReiniciar, false);
+    const iniciar = document.getElementById('iniciar');
+    iniciar.addEventListener('click', clickIniciar, false);
+    const cargar = document.getElementById('cargar');
+    cargar.addEventListener('click', clickCargar, false);
 };
 
 window.onload = function () {
-    addEvents();
+    agregarEventos();
     init();
 };

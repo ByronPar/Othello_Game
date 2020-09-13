@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
+using System.Xml;
 using Othello_Game.Models;
 
 namespace Othello_Game.Controllers
@@ -20,6 +23,30 @@ namespace Othello_Game.Controllers
         {
             var jugador_Partida = db.Jugador_Partida.Include(j => j.Jugador).Include(j => j.Jugador_Partida2).Include(j => j.Partida);
             return View(jugador_Partida.ToList());
+        }
+
+        [HttpPost]
+        public ActionResult Create(HttpPostedFileBase file)
+        {
+            if (file != null && file.ContentLength > 0)
+                try
+                {
+                    string path = Path.Combine(Server.MapPath("~/xmls"),
+                        Path.GetFileName(file.FileName));
+                    file.SaveAs(path);
+                    ViewBag.Message = path;
+                    return View();
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.Message = "error";
+                    return View();
+                }
+            else {
+                ViewBag.Message = "no selecciono archivo";
+                return View();
+            }
+
         }
 
         // GET: Jugador_Partida/Details/5
@@ -40,31 +67,29 @@ namespace Othello_Game.Controllers
         // GET: Jugador_Partida/Create
         public ActionResult Create()
         {
-            ViewBag.id_usuario = new SelectList(db.Jugador, "id_usuario", "nombres");
-            ViewBag.id_jugador_2 = new SelectList(db.Jugador_Partida, "id_jugador_partida", "color");
-            ViewBag.id_partida = new SelectList(db.Partida, "id_partida", "color_siguiente");
             return View();
+            
         }
 
         // POST: Jugador_Partida/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_jugador_partida,movimientos,color,cantidad_fichas,id_usuario,id_partida,id_jugador_2")] Jugador_Partida jugador_Partida)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Jugador_Partida.Add(jugador_Partida);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create([Bind(Include = "id_jugador_partida,movimientos,color,cantidad_fichas,id_usuario,id_partida,id_jugador_2")] Jugador_Partida jugador_Partida)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Jugador_Partida.Add(jugador_Partida);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
 
-            ViewBag.id_usuario = new SelectList(db.Jugador, "id_usuario", "nombres", jugador_Partida.id_usuario);
-            ViewBag.id_jugador_2 = new SelectList(db.Jugador_Partida, "id_jugador_partida", "color", jugador_Partida.id_jugador_2);
-            ViewBag.id_partida = new SelectList(db.Partida, "id_partida", "color_siguiente", jugador_Partida.id_partida);
-            return View(jugador_Partida);
-        }
+        //    ViewBag.id_usuario = new SelectList(db.Jugador, "id_usuario", "nombres", jugador_Partida.id_usuario);
+        //    ViewBag.id_jugador_2 = new SelectList(db.Jugador_Partida, "id_jugador_partida", "color", jugador_Partida.id_jugador_2);
+        //    ViewBag.id_partida = new SelectList(db.Partida, "id_partida", "color_siguiente", jugador_Partida.id_partida);
+        //    return View(jugador_Partida);
+        //}
 
         // GET: Jugador_Partida/Edit/5
         public ActionResult Edit(int? id)

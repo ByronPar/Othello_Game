@@ -3,8 +3,7 @@
 
 
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Bienvenido " + User.Identity.Name, null, null, routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-        <li>@Html.ActionLink("Ver Perfil", "Details", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("Ver Perfil "+User.Identity.Name, "Details", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
         <li>@Html.ActionLink("Jugar Individual", "Create", "Jugador_Partida", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
         <li>@Html.ActionLink("Multiplayer", "Details", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
         <li>@Html.ActionLink("Torneo", "Details", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
