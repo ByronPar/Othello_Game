@@ -1,0 +1,436 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Othello_GameModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Jugador">
+          <Key>
+            <PropertyRef Name="id_usuario" />
+          </Key>
+          <Property Name="id_usuario" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="nombres" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="apellidos" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="contrasenia" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="fecha_nacimiento" Type="date" Nullable="false" />
+          <Property Name="correo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="id_pais" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pais">
+          <Key>
+            <PropertyRef Name="id_pais" />
+          </Key>
+          <Property Name="id_pais" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Partida">
+          <Key>
+            <PropertyRef Name="id_partida" />
+          </Key>
+          <Property Name="id_partida" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="movimientos" Type="int" Nullable="false" />
+          <Property Name="color" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="cantidad_fichas" Type="int" Nullable="false" />
+          <Property Name="ganador" Type="varchar" MaxLength="10" />
+          <Property Name="id_usuario" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="id_tipo_partida" Type="int" Nullable="false" />
+          <Property Name="id_jugador_2" Type="int" />
+        </EntityType>
+        <EntityType Name="Tipo_Partida">
+          <Key>
+            <PropertyRef Name="id_tipo_partida" />
+          </Key>
+          <Property Name="id_tipo_partida" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Torneo">
+          <Key>
+            <PropertyRef Name="id_torneo" />
+          </Key>
+          <Property Name="id_torneo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="id_GanadorTorneo" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Torneo_Partida">
+          <Key>
+            <PropertyRef Name="id_torneo_partida" />
+          </Key>
+          <Property Name="id_torneo_partida" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="no_ronda" Type="int" Nullable="false" />
+          <Property Name="id_torneo" Type="int" Nullable="false" />
+          <Property Name="id_partida" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_jugador2">
+          <End Role="Partida" Type="Self.Partida" Multiplicity="0..1" />
+          <End Role="Partida1" Type="Self.Partida" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partida">
+              <PropertyRef Name="id_partida" />
+            </Principal>
+            <Dependent Role="Partida1">
+              <PropertyRef Name="id_jugador_2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pais">
+          <End Role="Pais" Type="Self.Pais" Multiplicity="1" />
+          <End Role="Jugador" Type="Self.Jugador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pais">
+              <PropertyRef Name="id_pais" />
+            </Principal>
+            <Dependent Role="Jugador">
+              <PropertyRef Name="id_pais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PartidaTorneo">
+          <End Role="Partida" Type="Self.Partida" Multiplicity="1" />
+          <End Role="Torneo_Partida" Type="Self.Torneo_Partida" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partida">
+              <PropertyRef Name="id_partida" />
+            </Principal>
+            <Dependent Role="Torneo_Partida">
+              <PropertyRef Name="id_partida" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tipo_Partida">
+          <End Role="Tipo_Partida" Type="Self.Tipo_Partida" Multiplicity="1" />
+          <End Role="Partida" Type="Self.Partida" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tipo_Partida">
+              <PropertyRef Name="id_tipo_partida" />
+            </Principal>
+            <Dependent Role="Partida">
+              <PropertyRef Name="id_tipo_partida" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TorneoPartida">
+          <End Role="Torneo" Type="Self.Torneo" Multiplicity="1" />
+          <End Role="Torneo_Partida" Type="Self.Torneo_Partida" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Torneo">
+              <PropertyRef Name="id_torneo" />
+            </Principal>
+            <Dependent Role="Torneo_Partida">
+              <PropertyRef Name="id_torneo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsuarioPartida">
+          <End Role="Jugador" Type="Self.Jugador" Multiplicity="1" />
+          <End Role="Partida" Type="Self.Partida" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jugador">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="Partida">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Othello_GameModelStoreContainer">
+          <EntitySet Name="Jugador" EntityType="Self.Jugador" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pais" EntityType="Self.Pais" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Partida" EntityType="Self.Partida" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tipo_Partida" EntityType="Self.Tipo_Partida" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Torneo" EntityType="Self.Torneo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Torneo_Partida" EntityType="Self.Torneo_Partida" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_jugador2" Association="Self.FK_jugador2">
+            <End Role="Partida" EntitySet="Partida" />
+            <End Role="Partida1" EntitySet="Partida" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pais" Association="Self.FK_Pais">
+            <End Role="Pais" EntitySet="Pais" />
+            <End Role="Jugador" EntitySet="Jugador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PartidaTorneo" Association="Self.FK_PartidaTorneo">
+            <End Role="Partida" EntitySet="Partida" />
+            <End Role="Torneo_Partida" EntitySet="Torneo_Partida" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tipo_Partida" Association="Self.FK_Tipo_Partida">
+            <End Role="Tipo_Partida" EntitySet="Tipo_Partida" />
+            <End Role="Partida" EntitySet="Partida" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TorneoPartida" Association="Self.FK_TorneoPartida">
+            <End Role="Torneo" EntitySet="Torneo" />
+            <End Role="Torneo_Partida" EntitySet="Torneo_Partida" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsuarioPartida" Association="Self.FK_UsuarioPartida">
+            <End Role="Jugador" EntitySet="Jugador" />
+            <End Role="Partida" EntitySet="Partida" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Othello_GameModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Jugador">
+          <Key>
+            <PropertyRef Name="id_usuario" />
+          </Key>
+          <Property Name="id_usuario" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombres" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apellidos" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="contrasenia" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fecha_nacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_pais" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Pais" Relationship="Self.FK_Pais" FromRole="Jugador" ToRole="Pais" />
+          <NavigationProperty Name="Partida" Relationship="Self.FK_UsuarioPartida" FromRole="Jugador" ToRole="Partida" />
+        </EntityType>
+        <EntityType Name="Pais">
+          <Key>
+            <PropertyRef Name="id_pais" />
+          </Key>
+          <Property Name="id_pais" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Jugador" Relationship="Self.FK_Pais" FromRole="Pais" ToRole="Jugador" />
+        </EntityType>
+        <EntityType Name="Partida">
+          <Key>
+            <PropertyRef Name="id_partida" />
+          </Key>
+          <Property Name="id_partida" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="movimientos" Type="Int32" Nullable="false" />
+          <Property Name="color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cantidad_fichas" Type="Int32" Nullable="false" />
+          <Property Name="ganador" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="id_usuario" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_tipo_partida" Type="Int32" Nullable="false" />
+          <Property Name="id_jugador_2" Type="Int32" />
+          <NavigationProperty Name="Jugador" Relationship="Self.FK_UsuarioPartida" FromRole="Partida" ToRole="Jugador" />
+          <NavigationProperty Name="Partida1" Relationship="Self.FK_jugador2" FromRole="Partida" ToRole="Partida1" />
+          <NavigationProperty Name="Partida2" Relationship="Self.FK_jugador2" FromRole="Partida1" ToRole="Partida" />
+          <NavigationProperty Name="Torneo_Partida" Relationship="Self.FK_PartidaTorneo" FromRole="Partida" ToRole="Torneo_Partida" />
+          <NavigationProperty Name="Tipo_Partida" Relationship="Self.FK_Tipo_Partida" FromRole="Partida" ToRole="Tipo_Partida" />
+        </EntityType>
+        <EntityType Name="Tipo_Partida">
+          <Key>
+            <PropertyRef Name="id_tipo_partida" />
+          </Key>
+          <Property Name="id_tipo_partida" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Partida" Relationship="Self.FK_Tipo_Partida" FromRole="Tipo_Partida" ToRole="Partida" />
+        </EntityType>
+        <EntityType Name="Torneo">
+          <Key>
+            <PropertyRef Name="id_torneo" />
+          </Key>
+          <Property Name="id_torneo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_GanadorTorneo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Torneo_Partida" Relationship="Self.FK_TorneoPartida" FromRole="Torneo" ToRole="Torneo_Partida" />
+        </EntityType>
+        <EntityType Name="Torneo_Partida">
+          <Key>
+            <PropertyRef Name="id_torneo_partida" />
+          </Key>
+          <Property Name="id_torneo_partida" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="no_ronda" Type="Int32" Nullable="false" />
+          <Property Name="id_torneo" Type="Int32" Nullable="false" />
+          <Property Name="id_partida" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Partida" Relationship="Self.FK_PartidaTorneo" FromRole="Torneo_Partida" ToRole="Partida" />
+          <NavigationProperty Name="Torneo" Relationship="Self.FK_TorneoPartida" FromRole="Torneo_Partida" ToRole="Torneo" />
+        </EntityType>
+        <Association Name="FK_Pais">
+          <End Role="Pais" Type="Self.Pais" Multiplicity="1" />
+          <End Role="Jugador" Type="Self.Jugador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pais">
+              <PropertyRef Name="id_pais" />
+            </Principal>
+            <Dependent Role="Jugador">
+              <PropertyRef Name="id_pais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsuarioPartida">
+          <End Role="Jugador" Type="Self.Jugador" Multiplicity="1" />
+          <End Role="Partida" Type="Self.Partida" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jugador">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="Partida">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_jugador2">
+          <End Role="Partida" Type="Self.Partida" Multiplicity="0..1" />
+          <End Role="Partida1" Type="Self.Partida" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partida">
+              <PropertyRef Name="id_partida" />
+            </Principal>
+            <Dependent Role="Partida1">
+              <PropertyRef Name="id_jugador_2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PartidaTorneo">
+          <End Role="Partida" Type="Self.Partida" Multiplicity="1" />
+          <End Role="Torneo_Partida" Type="Self.Torneo_Partida" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partida">
+              <PropertyRef Name="id_partida" />
+            </Principal>
+            <Dependent Role="Torneo_Partida">
+              <PropertyRef Name="id_partida" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tipo_Partida">
+          <End Role="Tipo_Partida" Type="Self.Tipo_Partida" Multiplicity="1" />
+          <End Role="Partida" Type="Self.Partida" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tipo_Partida">
+              <PropertyRef Name="id_tipo_partida" />
+            </Principal>
+            <Dependent Role="Partida">
+              <PropertyRef Name="id_tipo_partida" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TorneoPartida">
+          <End Role="Torneo" Type="Self.Torneo" Multiplicity="1" />
+          <End Role="Torneo_Partida" Type="Self.Torneo_Partida" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Torneo">
+              <PropertyRef Name="id_torneo" />
+            </Principal>
+            <Dependent Role="Torneo_Partida">
+              <PropertyRef Name="id_torneo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DataBase" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Jugador" EntityType="Self.Jugador" />
+          <EntitySet Name="Pais" EntityType="Self.Pais" />
+          <EntitySet Name="Partida" EntityType="Self.Partida" />
+          <EntitySet Name="Tipo_Partida" EntityType="Self.Tipo_Partida" />
+          <EntitySet Name="Torneo" EntityType="Self.Torneo" />
+          <EntitySet Name="Torneo_Partida" EntityType="Self.Torneo_Partida" />
+          <AssociationSet Name="FK_Pais" Association="Self.FK_Pais">
+            <End Role="Pais" EntitySet="Pais" />
+            <End Role="Jugador" EntitySet="Jugador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsuarioPartida" Association="Self.FK_UsuarioPartida">
+            <End Role="Jugador" EntitySet="Jugador" />
+            <End Role="Partida" EntitySet="Partida" />
+          </AssociationSet>
+          <AssociationSet Name="FK_jugador2" Association="Self.FK_jugador2">
+            <End Role="Partida" EntitySet="Partida" />
+            <End Role="Partida1" EntitySet="Partida" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PartidaTorneo" Association="Self.FK_PartidaTorneo">
+            <End Role="Partida" EntitySet="Partida" />
+            <End Role="Torneo_Partida" EntitySet="Torneo_Partida" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tipo_Partida" Association="Self.FK_Tipo_Partida">
+            <End Role="Tipo_Partida" EntitySet="Tipo_Partida" />
+            <End Role="Partida" EntitySet="Partida" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TorneoPartida" Association="Self.FK_TorneoPartida">
+            <End Role="Torneo" EntitySet="Torneo" />
+            <End Role="Torneo_Partida" EntitySet="Torneo_Partida" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Othello_GameModelStoreContainer" CdmEntityContainer="DataBase">
+          <EntitySetMapping Name="Jugador">
+            <EntityTypeMapping TypeName="Othello_GameModel.Jugador">
+              <MappingFragment StoreEntitySet="Jugador">
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="contrasenia" ColumnName="contrasenia" />
+                <ScalarProperty Name="fecha_nacimiento" ColumnName="fecha_nacimiento" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="id_pais" ColumnName="id_pais" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pais">
+            <EntityTypeMapping TypeName="Othello_GameModel.Pais">
+              <MappingFragment StoreEntitySet="Pais">
+                <ScalarProperty Name="id_pais" ColumnName="id_pais" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Partida">
+            <EntityTypeMapping TypeName="Othello_GameModel.Partida">
+              <MappingFragment StoreEntitySet="Partida">
+                <ScalarProperty Name="id_partida" ColumnName="id_partida" />
+                <ScalarProperty Name="movimientos" ColumnName="movimientos" />
+                <ScalarProperty Name="color" ColumnName="color" />
+                <ScalarProperty Name="cantidad_fichas" ColumnName="cantidad_fichas" />
+                <ScalarProperty Name="ganador" ColumnName="ganador" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="id_tipo_partida" ColumnName="id_tipo_partida" />
+                <ScalarProperty Name="id_jugador_2" ColumnName="id_jugador_2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tipo_Partida">
+            <EntityTypeMapping TypeName="Othello_GameModel.Tipo_Partida">
+              <MappingFragment StoreEntitySet="Tipo_Partida">
+                <ScalarProperty Name="id_tipo_partida" ColumnName="id_tipo_partida" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Torneo">
+            <EntityTypeMapping TypeName="Othello_GameModel.Torneo">
+              <MappingFragment StoreEntitySet="Torneo">
+                <ScalarProperty Name="id_torneo" ColumnName="id_torneo" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id_GanadorTorneo" ColumnName="id_GanadorTorneo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Torneo_Partida">
+            <EntityTypeMapping TypeName="Othello_GameModel.Torneo_Partida">
+              <MappingFragment StoreEntitySet="Torneo_Partida">
+                <ScalarProperty Name="id_torneo_partida" ColumnName="id_torneo_partida" />
+                <ScalarProperty Name="no_ronda" ColumnName="no_ronda" />
+                <ScalarProperty Name="id_torneo" ColumnName="id_torneo" />
+                <ScalarProperty Name="id_partida" ColumnName="id_partida" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
