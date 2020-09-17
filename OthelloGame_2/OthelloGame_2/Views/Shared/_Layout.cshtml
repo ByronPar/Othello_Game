@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" type="text/css" href="~/Content/footer.css" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color: rgba(1,28,57,1);">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Othello", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    <footer class="footer">
+        <div class="footer-left">
+            <img src="~/img/sticker.png" alt="" />
+            <p>
+                Othello Game, El reversi, othello o yang es un juego entre dos personas,
+                que comparten 64 fichas iguales, de caras distintas, que se van colocando
+                por turnos en un tablero dividido en 64 casillas. Las caras de las fichas
+                se distinguen por su color y cada jugador tiene asignado uno de esos colores,
+                ganando quien tenga más fichas sobre el tablero al finalizar la partida. Se
+                clasifica como juego de tablero, abstracto y territorial; al igual que el go
+                y las amazonas.
+            </p>
+            <div class="socials">
+                <a href="https://www.facebook.com/byron.par.98" target="_blank"><img src="~/img/facebook.png"/></a>
+                <a href="https://twitter.com/Spm_Poeta" target="_blank"><img src="~/img/twitter.png"/></a>
+                <a href="https://github.com/ByronPar" target="_blank"><img src="~/img/github.png"/></a>
+                <a href="https://www.linkedin.com/in/byronpar/" target="_blank"><img src="~/img/linked.png"/></a>
+                <a href="https://www.youtube.com/channel/UCskjB47Lzv4hShgSKGjpeJg?view_as=subscriber" target="_blank"><img src="~/img/youtube.png"/></a>
+            </div>
+        </div>
+        <ul class="footer-right">
+            <li>
+                <h2>Dirección</h2>
+                <ul class="box">
+                    <li><a href="#">Palín - Escuintla</a></li>
+                    <li><a href="#">Barrio San Antonio</a></li>
+                    <li><a href="#">Guatemala</a></li>
+                </ul>
+            </li>
+            <li>
+                <h2>Contacto</h2>
+                <ul class="box">
+                    <li><a href="#">Universidad de San Carlos de Guatemala</a></li>
+                    <li><a href="#">+(502) 58584392</a></li>
+                    <li><a href="#">byronpar9@gmail.com</a></li>
+                </ul>
+            </li>
+        </ul>
+        <div class="footer-bottom">
+            <p>Todos los derechos reservados &copy;Corporation 2020</p>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

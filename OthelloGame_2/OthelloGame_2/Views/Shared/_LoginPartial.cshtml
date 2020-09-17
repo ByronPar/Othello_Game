@@ -1,0 +1,18 @@
+﻿@if (User.Identity.IsAuthenticated)
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Ver Perfil " + User.Identity.Name, "Details", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("Jugar Individual", "Create", "Jugador_Partida", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("Multiplayer", "Details", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("Torneo", "Details", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("Reportes", "Details", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("Cerrar Sesión", "CerrarSesion", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Iniciar Sesión     ", "Login", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("Registrarse", "Create", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}
