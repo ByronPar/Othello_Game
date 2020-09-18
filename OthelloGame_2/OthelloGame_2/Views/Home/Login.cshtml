@@ -1,0 +1,40 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Inicio Sesión";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/Login.css" />
+<center>
+    <div class="login-box">
+        @{
+            if (!string.IsNullOrEmpty(ViewBag.Message))
+            {
+                //message tiene valor
+                <div class="alert alert-danger" data-dismiss="alert" id="succes-alert" role="alert">@ViewBag.Message</div>
+            }
+
+        }
+        <h2>Login</h2>
+        <form action="/Home/Login" method="post">
+            <div class="user-box">
+                <input type="text" name="user" required="">
+                <label>Nombre de Usuario</label>
+            </div>
+            <div class="user-box">
+                <input type="password" name="pass" required="">
+                <label>Contraseña</label>
+            </div>
+            <button class="btn btn-primary" type="submit">Iniciar Sesion</button>
+        </form>
+    </div>
+
+</center>
+
+
+<script>
+    //autoclose
+    window.setTimeout(function () {
+        $(".alert").fadeTo(1500, 0).slideDown(1000, function () {
+            $(this).remove();
+        });
+    }, 2700);  // 3 segundos y desaparece
+</script>

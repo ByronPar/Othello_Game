@@ -1,7 +1,9 @@
 ﻿*,*:before,*:after{
     box-sizing: border-box;
 }
-
+body {
+    background-color: rgba(1,28,57,1);
+}
 footer {
     display: -webkit-flex;
     display: -moz-flex;
@@ -18,7 +20,7 @@ flex: 1 100%;
 }
 
 .footer-left {
-margin-right: 1.25em;
+margin-right: 19.25em;
 margin-bottom: 2em;
 text-align:justify;
 }
@@ -65,8 +67,8 @@ color: #999;
 padding-top: 0px;
 }
 .footer-left p {
-padding-right: 20%;
 color: #999;
+width:129%;
 }
 @media screen and (min-width: 600px) {
     .footer-right > *{
