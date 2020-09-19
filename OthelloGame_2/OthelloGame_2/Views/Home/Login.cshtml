@@ -16,11 +16,11 @@
         <h2>Login</h2>
         <form action="/Home/Login" method="post">
             <div class="user-box">
-                <input type="text" name="user" required="">
+                <input type="text" name="username" required="">
                 <label>Nombre de Usuario</label>
             </div>
             <div class="user-box">
-                <input type="password" name="pass" required="">
+                <input type="password" name="contrasenia" required="">
                 <label>Contraseña</label>
             </div>
             <button class="btn btn-primary" type="submit">Iniciar Sesion</button>
@@ -30,11 +30,4 @@
 </center>
 
 
-<script>
-    //autoclose
-    window.setTimeout(function () {
-        $(".alert").fadeTo(1500, 0).slideDown(1000, function () {
-            $(this).remove();
-        });
-    }, 2700);  // 3 segundos y desaparece
-</script>
+<script src="~/Scripts/mensajes.js"></script>

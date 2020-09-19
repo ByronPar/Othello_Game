@@ -1,0 +1,81 @@
+﻿@model OthelloGame_2.Models.Partida
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Partida</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.movimientos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.movimientos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.color)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.color)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cantidad_fichas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cantidad_fichas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ganador)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ganador)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Jugador.nombres)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Jugador.nombres)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Partida2.color)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Partida2.color)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tipo_Partida.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tipo_Partida.nombre)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

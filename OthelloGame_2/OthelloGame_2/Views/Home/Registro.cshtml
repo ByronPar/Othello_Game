@@ -1,8 +1,68 @@
-﻿
+﻿@model OthelloGame_2.Models.Jugador
 @{
     ViewBag.Title = "Registro";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@using (Html.BeginForm("Registro", "Home"))
+{
+    @Html.AntiForgeryToken()
+    <link rel="stylesheet" type="text/css" href="~/Content/Registro.css" />
+    <center>
+        <div class="login-box">
+            @{
+                if (!string.IsNullOrEmpty(ViewBag.Message))
+                {
+                    //message tiene valor
+
+                    <div class="alert alert-danger" data-dismiss="alert" id="succes-alert" role="alert">@ViewBag.Message</div>
 
 
+                }
+                else if (!string.IsNullOrEmpty(ViewBag.Message2))
+                {
+                    //message tiene valor
+
+                    <div class="alert alert-success" data-dismiss="alert" id="succes-alert" role="alert">@ViewBag.Message2</div>
+
+                }
+            }
+            <h2>Registro</h2>
+            <div class="user-box">
+                <input type="text" name="nombres" required="">
+                <label>Nombres</label>
+            </div>
+            <div class="user-box">
+                <input type="text" name="apellidos" required="">
+                <label>Apellidos</label>
+            </div>
+            <div class="user-box">
+                <input type="text" name="id_usuario" required="">
+                <label>Nombre de Usuario</label>
+            </div>
+            <div class="user-box">
+                <input type="password" name="contrasenia" required="">
+                <label>Contraseña</label>
+            </div>
+            <div class="user-box">
+                <input type="date" name="fecha_nacimiento" required="">
+                <label>Fecha de Nacimiento</label>
+            </div>
+            <div class="user-box">
+                @Html.LabelFor(model => model.id_pais, "Pais", htmlAttributes: new { @class = "label" })
+                @Html.DropDownList("id_pais", (IEnumerable<SelectListItem>)ViewBag.id_pais, "Seleccionar Pais", htmlAttributes: new {@class="form-control"})
+                @Html.ValidationMessageFor(model => model.id_pais, "", new { @class = "text-danger" })
+            </div>
+            <div class="user-box">
+                <input type="email" name="correo" required="">
+                <label>Correo electronico</label>
+            </div>
+            <input type="submit" value="Registrarse" class="btn btn-primary" />
+        </div>
+
+    </center>
+
+}
+@section Scripts {
+    @Scripts.Render("~/Scripts/mensajes.js")
+}

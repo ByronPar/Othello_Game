@@ -21,9 +21,11 @@ namespace OthelloGame_2.Controllers
             return View(jugador.ToList());
         }
 
+        [Authorize]
         // GET: Jugador/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Perfil()
         {
+            string id = User.Identity.Name;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
