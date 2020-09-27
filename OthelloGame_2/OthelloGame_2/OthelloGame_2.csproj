@@ -178,6 +178,7 @@
     <Content Include="Content\login.css" />
     <Content Include="Content\Perfil.css" />
     <Content Include="Content\Registro.css" />
+    <Content Include="Content\Tablero.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -186,14 +187,17 @@
     <Content Include="img\2.png" />
     <Content Include="img\3.png" />
     <Content Include="img\4.png" />
+    <Content Include="img\blanco.png" />
     <Content Include="img\facebook.png" />
     <Content Include="img\fondo.jpg" />
     <Content Include="img\game.png" />
     <Content Include="img\github.png" />
     <Content Include="img\linked.png" />
     <Content Include="img\log.jpg" />
+    <Content Include="img\negro.png" />
     <Content Include="img\perfil.png" />
     <Content Include="img\sticker.png" />
+    <Content Include="img\tablero.png" />
     <Content Include="img\twitter.png" />
     <Content Include="img\youtube.png" />
     <Content Include="Models\DataBase.Context.tt">
@@ -227,6 +231,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\mensajes.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Tablero.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -247,11 +252,7 @@
     <Content Include="Views\Jugador\Edit.cshtml" />
     <Content Include="Views\Jugador\Index.cshtml" />
     <Content Include="Views\Home\Registro.cshtml" />
-    <Content Include="Views\Partida\Create.cshtml" />
-    <Content Include="Views\Partida\Delete.cshtml" />
-    <Content Include="Views\Partida\Details.cshtml" />
-    <Content Include="Views\Partida\Edit.cshtml" />
-    <Content Include="Views\Partida\Index.cshtml" />
+    <Content Include="Views\Partida\Individual.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

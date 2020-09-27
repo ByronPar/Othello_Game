@@ -1,0 +1,196 @@
+﻿@model OthelloGame_2.Models.Partida
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/Tablero.css" />
+
+@{
+    var listado = new List<SelectListItem> {
+            new SelectListItem(){
+            Text = "Blanco",
+            Value = "Blanco"
+            },
+            new SelectListItem(){
+            Text = "Negro",
+            Value = "Negro"
+            }
+            };
+}
+
+@using (Html.BeginForm("Individual", "Partida"))// para seleccionar el color
+{
+    @Html.AntiForgeryToken()
+
+    <div class="overlay" id="overlay">
+        <div class="contenido">
+            <div class="titulo">Escoge un color</div>
+            <br />
+            <center>
+                @Html.DropDownList("color", listado, "Seleccionar Color", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.color, "", new { @class = "text-danger" })
+                <br />
+                <button class="btn btn-primary" id="iniciar" onclick="on()">Iniciar Juego</button>
+            </center>
+
+        </div>
+    </div>
+
+    <script>
+        function on() {
+            document.getElementById("overlay").style.display = "none";
+        }
+    </script>
+}
+
+<div class="row">
+    <div style=" height: 650px; background-color: rgba(255, 255, 255,0.13);" class="col-lg-3 datos">
+
+        <br />
+        Movimientos:<span id="movimientos1"></span>
+        <br />
+        Color Ficha: <span id="colorficha1"></span>
+        <br />
+        Cantidad Fichas:<span id="fichas1"></span>
+    </div>
+
+    <div style="background-color: green; height: 650px; text-align:center; " class="col-lg-6">
+        <br />
+        @using (Html.BeginForm("Registro", "Home"))
+        {
+            @Html.AntiForgeryToken()
+            <input type="submit" value="Guardar Partida" class="btn btn-primary" />
+        }
+        <br />
+        <table class="table table-bordered">
+            <tbody style="color: black">
+                <tr>
+                    <td class="marco"></td>
+                    <td class="marco">A</td>
+                    <td class="marco">B</td>
+                    <td class="marco">C</td>
+                    <td class="marco">D</td>
+                    <td class="marco">E</td>
+                    <td class="marco">F</td>
+                    <td class="marco">G</td>
+                    <td class="marco">H</td>
+                    <td class="marco"></td>
+                </tr>
+                <tr>
+                    <td class="marco">1</td>
+                    <td class="celda" id="00"></td>
+                    <td class="celda" id="01"></td>
+                    <td class="celda" id="02"></td>
+                    <td class="celda" id="03"></td>
+                    <td class="celda" id="04"></td>
+                    <td class="celda" id="05"></td>
+                    <td class="celda" id="06"></td>
+                    <td class="celda" id="07"></td>
+                    <td class="marco">1</td>
+                </tr>
+                <tr>
+                    <td class="marco">2</td>
+                    <td class="celda" id="00"></td>
+                    <td class="celda" id="11"></td>
+                    <td class="celda" id="12"></td>
+                    <td class="celda" id="13"></td>
+                    <td class="celda" id="14"></td>
+                    <td class="celda" id="15"></td>
+                    <td class="celda" id="16"></td>
+                    <td class="celda" id="17"></td>
+                    <td class="marco">2</td>
+                </tr>
+                <tr>
+                    <td class="marco">3</td>
+                    <td class="celda" id="20"></td>
+                    <td class="celda" id="21"></td>
+                    <td class="celda" id="22"></td>
+                    <td class="celda" id="23"></td>
+                    <td class="celda" id="24"></td>
+                    <td class="celda" id="25"></td>
+                    <td class="celda" id="26"></td>
+                    <td class="celda" id="27"></td>
+                    <td class="marco">3</td>
+                </tr>
+                <tr>
+                    <td class="marco">4</td>
+                    <td class="celda" id="30"></td>
+                    <td class="celda" id="31"></td>
+                    <td class="celda" id="32"></td>
+                    <td class="celda" id="33"></td>
+                    <td class="celda" id="34"></td>
+                    <td class="celda" id="35"></td>
+                    <td class="celda" id="36"></td>
+                    <td class="celda" id="37"></td>
+                    <td class="marco">4</td>
+                </tr>
+                <tr>
+                    <td class="marco">5</td>
+                    <td class="celda" id="40"></td>
+                    <td class="celda" id="41"></td>
+                    <td class="celda" id="42"></td>
+                    <td class="celda" id="43"></td>
+                    <td class="celda" id="44"></td>
+                    <td class="celda" id="45"></td>
+                    <td class="celda" id="46"></td>
+                    <td class="celda" id="47"></td>
+                    <td class="marco">5</td>
+                </tr>
+                <tr>
+                    <td class="marco">6</td>
+                    <td class="celda" id="50"></td>
+                    <td class="celda" id="51"></td>
+                    <td class="celda" id="52"></td>
+                    <td class="celda" id="53"></td>
+                    <td class="celda" id="54"></td>
+                    <td class="celda" id="55"></td>
+                    <td class="celda" id="56"></td>
+                    <td class="celda" id="57"></td>
+                    <td class="marco">6</td>
+                </tr>
+                <tr>
+                    <td class="marco">7</td>
+                    <td class="celda" id="60"></td>
+                    <td class="celda" id="61"></td>
+                    <td class="celda" id="62"></td>
+                    <td class="celda" id="63"></td>
+                    <td class="celda" id="64"></td>
+                    <td class="celda" id="65"></td>
+                    <td class="celda" id="66"></td>
+                    <td class="celda" id="67"></td>
+                    <td class="marco">7</td>
+                </tr>
+                <tr>
+                    <td class="marco">8</td>
+                    <td class="celda" id="70"></td>
+                    <td class="celda" id="71"></td>
+                    <td class="celda" id="72"></td>
+                    <td class="celda" id="73"></td>
+                    <td class="celda" id="74"></td>
+                    <td class="celda" id="75"></td>
+                    <td class="celda" id="76"></td>
+                    <td class="celda" id="77"></td>
+                    <td class="marco">8</td>
+                </tr>
+                <tr>
+                    <td class="marco"></td>
+                    <td class="marco">A</td>
+                    <td class="marco">B</td>
+                    <td class="marco">C</td>
+                    <td class="marco">D</td>
+                    <td class="marco">E</td>
+                    <td class="marco">F</td>
+                    <td class="marco">G</td>
+                    <td class="marco">H</td>
+                    <td class="marco"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style=" height: 650px;background-color: rgba(255, 255, 255,0.13);" class="col-lg-3 datos">
+
+    </div>
+</div>
+
+

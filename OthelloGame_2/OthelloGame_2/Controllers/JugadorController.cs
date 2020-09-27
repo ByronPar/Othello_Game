@@ -10,6 +10,7 @@ using OthelloGame_2.Models;
 
 namespace OthelloGame_2.Controllers
 {
+    [Authorize] // significa que solo usuarios registrados entraran en esta modalidad
     public class JugadorController : Controller
     {
         private DataBase db = new DataBase();
@@ -21,7 +22,6 @@ namespace OthelloGame_2.Controllers
             return View(jugador.ToList());
         }
 
-        [Authorize]
         // GET: Jugador/Details/5
         public ActionResult Perfil()
         {

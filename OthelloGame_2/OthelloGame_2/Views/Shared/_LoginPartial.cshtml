@@ -2,7 +2,15 @@
 {
     <ul class="nav navbar-nav navbar-right">
         <li>@Html.ActionLink("Ver Perfil " + User.Identity.Name, "Perfil", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-        <li>@Html.ActionLink("Jugar Individual", "Individual", "Partida", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">
+                Jugar Individual
+            </a>
+            <ul class="dropdown-menu">
+                <li class="nav-item">@Html.ActionLink("Nueva Partida", "Individual", "Partida", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                <li class="nav-item">@Html.ActionLink("Cargar Partida", "Perfil", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+            </ul>
+        </li>
         <li>@Html.ActionLink("Multiplayer", "Multiplayer", "Partida", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
         <li>@Html.ActionLink("Torneo", "Perfil", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
         <li>@Html.ActionLink("Reportes", "Perfil", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
