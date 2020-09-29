@@ -35,7 +35,7 @@ namespace OthelloGame_2.Models
         public virtual Jugador Jugador { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Partida> Partida1 { get; set; }
-        public virtual Partida Partida2 { get; set; }
+        public virtual Partida Partida2 { get; set; } // partida 2 es mi contrincante
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Torneo_Partida> Torneo_Partida { get; set; }
         public virtual Tipo_Partida Tipo_Partida { get; set; }

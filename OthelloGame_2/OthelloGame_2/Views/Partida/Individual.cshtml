@@ -6,53 +6,43 @@
 }
 <link rel="stylesheet" type="text/css" href="~/Content/Tablero.css" />
 
-@{
-    var listado = new List<SelectListItem> {
-            new SelectListItem(){
-            Text = "Blanco",
-            Value = "Blanco"
-            },
-            new SelectListItem(){
-            Text = "Negro",
-            Value = "Negro"
-            }
-            };
-}
-
-@using (Html.BeginForm("Individual", "Partida"))// para seleccionar el color
+@using (Html.BeginForm("Individual34", "Partida"))// para seleccionar el color
 {
     @Html.AntiForgeryToken()
-
     <div class="overlay" id="overlay">
         <div class="contenido">
             <div class="titulo">Escoge un color</div>
             <br />
             <center>
-                @Html.DropDownList("color", listado, "Seleccionar Color", htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.color, "", new { @class = "text-danger" })
+                <select name="color">
+                    <option value="Blanco" selected>Blanco</option>
+                    <option value="Negro">Negro</option>
+                </select>
                 <br />
-                <button class="btn btn-primary" id="iniciar" onclick="on()">Iniciar Juego</button>
+                <br />
+                <button class="btn btn-primary" id="iniciar">Iniciar Juego</button>
+                <br />
+                <br />
             </center>
-
         </div>
     </div>
-
-    <script>
-        function on() {
-            document.getElementById("overlay").style.display = "none";
-        }
-    </script>
 }
 
 <div class="row">
     <div style=" height: 650px; background-color: rgba(255, 255, 255,0.13);" class="col-lg-3 datos">
+        @if (Model != null)
+        {
+            <script>
+                document.getElementById("overlay").style.display = "none";
+            </script>
+            <br />
+            <p>Movimientos:<span id="movimientos1">@Model.movimientos</span></p>
+            <br />
+            <p>Color Ficha: <span id="colorficha1">@Model.color</span></p>
+            <br />
+            <p>Cantidad Fichas:<span id="fichas1">@Model.cantidad_fichas</span></p>
+        }
 
-        <br />
-        Movimientos:<span id="movimientos1"></span>
-        <br />
-        Color Ficha: <span id="colorficha1"></span>
-        <br />
-        Cantidad Fichas:<span id="fichas1"></span>
     </div>
 
     <div style="background-color: green; height: 650px; text-align:center; " class="col-lg-6">
