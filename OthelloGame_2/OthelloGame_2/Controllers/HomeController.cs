@@ -13,6 +13,10 @@ namespace OthelloGame_2.Controllers
         private DataBase db = new DataBase();
         public ActionResult Index()
         {
+            //limpio base de datos 
+            var metodo = new JugadorController();
+            metodo.LimpiarBaseDeDatos();
+            //termino de limpiar partidas que no contengan un ganador
             return View();
         }
 
@@ -87,6 +91,10 @@ namespace OthelloGame_2.Controllers
         [Authorize]
         public ActionResult CerrarSesion()
         {
+            //limpio base de datos 
+            var metodo = new JugadorController();
+            metodo.LimpiarBaseDeDatos();
+            //termino de limpiar partidas que no contengan un ganador
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "Home");
         }

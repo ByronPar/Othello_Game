@@ -15,16 +15,12 @@ namespace OthelloGame_2.Controllers
     {
         private DataBase db = new DataBase();
 
-        // GET: Jugador
-        public ActionResult Index()
-        {
-            var jugador = db.Jugador.Include(j => j.Pais);
-            return View(jugador.ToList());
-        }
 
-        // GET: Jugador/Details/5
+        // GET: Jugador/Perfil
+        [HttpGet]
         public ActionResult Perfil()
         {
+            LimpiarBaseDeDatos();
             string id = User.Identity.Name;
             if (id == null)
             {
@@ -36,6 +32,31 @@ namespace OthelloGame_2.Controllers
                 return HttpNotFound();
             }
             return View(jugador);
+        }
+
+        public void LimpiarBaseDeDatos(){
+            //limpio base de datos 
+            List<Partida> eliminar = new List<Partida>();
+            foreach (Partida partida in db.Partida)
+            {
+                if ((partida.ganador == "" || partida.ganador == null) && partida.id_jugador_2 != null)
+                {
+                    if (partida.Partida2.id_usuario == "cpu" && (partida.Partida2.ganador == "" || partida.ganador == null))
+                    {
+                        Partida partida2 = db.Partida.Find(partida.Partida2.id_partida);
+                        eliminar.Add(partida);
+                        eliminar.Add(partida2);
+                    }
+                }
+            }
+            foreach (Partida partida in eliminar)
+            {
+                Partida parti = db.Partida.Find(partida.id_partida);
+                db.Partida.Remove(parti);
+            }
+            db.SaveChanges();
+
+            //termino de limpiar partidas que no contengan un ganador
         }
 
         // GET: Jugador/Create
@@ -120,15 +141,6 @@ namespace OthelloGame_2.Controllers
             db.Jugador.Remove(jugador);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

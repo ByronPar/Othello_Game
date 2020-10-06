@@ -16,6 +16,15 @@ CREATE TABLE Jugador(
 	constraint FK_Pais foreign key (id_pais) references Pais(id_pais)
 );
 
+CREATE TABLE Ficha(
+	id_ficha BIGINT IDENTITY(1,1) PRIMARY KEY,
+	id_fila INT NOT NULL,
+	id_columna INT NOT NULL,
+	id_clase VARCHAR(50) NOT NULL,
+	id_partida INT NOT NULL,
+	constraint FK_PartidaFicha foreign key(id_partida) references Partida(id_partida)
+);
+
 CREATE TABLE Tipo_Partida(
 	id_tipo_partida INT IDENTITY(1,1) PRIMARY KEY,
 	nombre VARCHAR(50) NOT NULL,

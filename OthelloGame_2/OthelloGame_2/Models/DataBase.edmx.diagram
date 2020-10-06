@@ -17,6 +17,8 @@
         <AssociationConnector Association="Othello_GameModel.FK_PartidaTorneo" ManuallyRouted="false" />
         <AssociationConnector Association="Othello_GameModel.FK_Tipo_Partida" ManuallyRouted="false" />
         <AssociationConnector Association="Othello_GameModel.FK_TorneoPartida" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Othello_GameModel.Ficha" Width="1.5" PointX="10.125" PointY="4.25" />
+        <AssociationConnector Association="Othello_GameModel.FK_PartidaFicha" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

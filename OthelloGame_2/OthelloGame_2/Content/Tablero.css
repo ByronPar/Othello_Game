@@ -20,9 +20,11 @@
     height: 45px;
     width: 45px;
 }
+
+/* ESTIlo de texto de datos de cada jugador*/
 .datos{
-    padding-left:4em;
-    padding-top:4em;
+    padding-left:2em;
+    padding-top:2em;
     color: white;
 }
 
@@ -34,6 +36,12 @@
 .blanco {
     background: url(../../img/blanco.png);
     background-size:cover;
+}
+
+.table .celda {
+    border-color: black;
+    height: 45px;
+    width: 45px;
 }
 
 /*incio de juego , escoger color*/
@@ -64,3 +72,13 @@
     padding: 10px 0;
     text-align: center;
 }
+
+/* cuando la celda es valida*/
+.valido {
+    background-color: #375cab;
+    cursor: pointer;
+}
+
+    .valido:hover {
+        background-color: #0d9fe8;
+    }

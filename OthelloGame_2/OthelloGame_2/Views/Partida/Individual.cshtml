@@ -5,43 +5,49 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link rel="stylesheet" type="text/css" href="~/Content/Tablero.css" />
-
-@using (Html.BeginForm("Individual34", "Partida"))// para seleccionar el color
+@if (Model == null)
 {
-    @Html.AntiForgeryToken()
-    <div class="overlay" id="overlay">
-        <div class="contenido">
-            <div class="titulo">Escoge un color</div>
-            <br />
-            <center>
-                <select name="color">
-                    <option value="Blanco" selected>Blanco</option>
-                    <option value="Negro">Negro</option>
-                </select>
+    using (Html.BeginForm("Individual", "Partida"))// para seleccionar el color
+    {
+        @Html.AntiForgeryToken()
+        <div class="overlay" id="overlay">
+            <div class="contenido">
+                <div class="titulo">Escoge un color</div>
                 <br />
-                <br />
-                <button class="btn btn-primary" id="iniciar">Iniciar Juego</button>
-                <br />
-                <br />
-            </center>
+                <center>
+                    <select name="color">
+                        <option value="Blanco" selected>Blanco</option>
+                        <option value="Negro">Negro</option>
+                    </select>
+                    <br />
+                    <br />
+                    <button class="btn btn-primary" id="iniciar">Iniciar Juego</button>
+                    <br />
+                    <br />
+                </center>
+            </div>
         </div>
-    </div>
+    }
 }
-
 <div class="row">
     <div style=" height: 650px; background-color: rgba(255, 255, 255,0.13);" class="col-lg-3 datos">
-        @if (Model != null)
-        {
-            <script>
-                document.getElementById("overlay").style.display = "none";
-            </script>
-            <br />
-            <p>Movimientos:<span id="movimientos1">@Model.movimientos</span></p>
-            <br />
-            <p>Color Ficha: <span id="colorficha1">@Model.color</span></p>
-            <br />
-            <p>Cantidad Fichas:<span id="fichas1">@Model.cantidad_fichas</span></p>
-        }
+        <center>
+            @if (Model != null)
+            {
+                <script>
+                    document.getElementById("overlay").style.display = "none";
+                </script>
+                <br />
+                <p> Jugador 1 : @Model.Jugador.nombres</p>
+                <br />
+                <p class="datos">Movimientos : @Model.movimientos</p>
+                <br />
+                <p class="datos">Color Ficha : @Model.color</p>
+                <br />
+                <p class="datos">Cantidad Fichas : @Model.cantidad_fichas</p>
+            }
+        </center>
+
 
     </div>
 
@@ -53,134 +59,163 @@
             <input type="submit" value="Guardar Partida" class="btn btn-primary" />
         }
         <br />
-        <table class="table table-bordered">
-            <tbody style="color: black">
-                <tr>
-                    <td class="marco"></td>
-                    <td class="marco">A</td>
-                    <td class="marco">B</td>
-                    <td class="marco">C</td>
-                    <td class="marco">D</td>
-                    <td class="marco">E</td>
-                    <td class="marco">F</td>
-                    <td class="marco">G</td>
-                    <td class="marco">H</td>
-                    <td class="marco"></td>
-                </tr>
-                <tr>
-                    <td class="marco">1</td>
-                    <td class="celda" id="00"></td>
-                    <td class="celda" id="01"></td>
-                    <td class="celda" id="02"></td>
-                    <td class="celda" id="03"></td>
-                    <td class="celda" id="04"></td>
-                    <td class="celda" id="05"></td>
-                    <td class="celda" id="06"></td>
-                    <td class="celda" id="07"></td>
-                    <td class="marco">1</td>
-                </tr>
-                <tr>
-                    <td class="marco">2</td>
-                    <td class="celda" id="00"></td>
-                    <td class="celda" id="11"></td>
-                    <td class="celda" id="12"></td>
-                    <td class="celda" id="13"></td>
-                    <td class="celda" id="14"></td>
-                    <td class="celda" id="15"></td>
-                    <td class="celda" id="16"></td>
-                    <td class="celda" id="17"></td>
-                    <td class="marco">2</td>
-                </tr>
-                <tr>
-                    <td class="marco">3</td>
-                    <td class="celda" id="20"></td>
-                    <td class="celda" id="21"></td>
-                    <td class="celda" id="22"></td>
-                    <td class="celda" id="23"></td>
-                    <td class="celda" id="24"></td>
-                    <td class="celda" id="25"></td>
-                    <td class="celda" id="26"></td>
-                    <td class="celda" id="27"></td>
-                    <td class="marco">3</td>
-                </tr>
-                <tr>
-                    <td class="marco">4</td>
-                    <td class="celda" id="30"></td>
-                    <td class="celda" id="31"></td>
-                    <td class="celda" id="32"></td>
-                    <td class="celda" id="33"></td>
-                    <td class="celda" id="34"></td>
-                    <td class="celda" id="35"></td>
-                    <td class="celda" id="36"></td>
-                    <td class="celda" id="37"></td>
-                    <td class="marco">4</td>
-                </tr>
-                <tr>
-                    <td class="marco">5</td>
-                    <td class="celda" id="40"></td>
-                    <td class="celda" id="41"></td>
-                    <td class="celda" id="42"></td>
-                    <td class="celda" id="43"></td>
-                    <td class="celda" id="44"></td>
-                    <td class="celda" id="45"></td>
-                    <td class="celda" id="46"></td>
-                    <td class="celda" id="47"></td>
-                    <td class="marco">5</td>
-                </tr>
-                <tr>
-                    <td class="marco">6</td>
-                    <td class="celda" id="50"></td>
-                    <td class="celda" id="51"></td>
-                    <td class="celda" id="52"></td>
-                    <td class="celda" id="53"></td>
-                    <td class="celda" id="54"></td>
-                    <td class="celda" id="55"></td>
-                    <td class="celda" id="56"></td>
-                    <td class="celda" id="57"></td>
-                    <td class="marco">6</td>
-                </tr>
-                <tr>
-                    <td class="marco">7</td>
-                    <td class="celda" id="60"></td>
-                    <td class="celda" id="61"></td>
-                    <td class="celda" id="62"></td>
-                    <td class="celda" id="63"></td>
-                    <td class="celda" id="64"></td>
-                    <td class="celda" id="65"></td>
-                    <td class="celda" id="66"></td>
-                    <td class="celda" id="67"></td>
-                    <td class="marco">7</td>
-                </tr>
-                <tr>
-                    <td class="marco">8</td>
-                    <td class="celda" id="70"></td>
-                    <td class="celda" id="71"></td>
-                    <td class="celda" id="72"></td>
-                    <td class="celda" id="73"></td>
-                    <td class="celda" id="74"></td>
-                    <td class="celda" id="75"></td>
-                    <td class="celda" id="76"></td>
-                    <td class="celda" id="77"></td>
-                    <td class="marco">8</td>
-                </tr>
-                <tr>
-                    <td class="marco"></td>
-                    <td class="marco">A</td>
-                    <td class="marco">B</td>
-                    <td class="marco">C</td>
-                    <td class="marco">D</td>
-                    <td class="marco">E</td>
-                    <td class="marco">F</td>
-                    <td class="marco">G</td>
-                    <td class="marco">H</td>
-                    <td class="marco"></td>
-                </tr>
-            </tbody>
-        </table>
+        @if (Model != null)
+        {
+
+            <table class="table table-bordered">
+                <tbody style="color: black">
+                    <tr>
+                        <td class="marco"></td>
+                        <td class="marco">A</td>
+                        <td class="marco">B</td>
+                        <td class="marco">C</td>
+                        <td class="marco">D</td>
+                        <td class="marco">E</td>
+                        <td class="marco">F</td>
+                        <td class="marco">G</td>
+                        <td class="marco">H</td>
+                        <td class="marco"></td>
+                    </tr>
+                    <tr>
+                        <td class="marco">1</td>
+                        @for (int i = 0; i < 8; i++)
+                        {
+                            foreach (var item in Model.Posiciones.Where(e => e.fila == 0 && e.columna == i))
+                            {
+                                <td class="celda @item.clase" id="celda-0-@i"></td>
+                            }
+                        }
+                        <td class="marco">1</td>
+                    </tr>
+                    <tr>
+                        <td class="marco">2</td>
+                        @for (int i = 0; i < 8; i++)
+                        {
+                            foreach (var item in Model.Posiciones.Where(e => e.fila == 1 && e.columna == i))
+                            {
+                                <td class="celda @item.clase" id="celda-1-@i"></td>
+                            }
+                        }
+                        <td class="marco">2</td>
+                    </tr>
+                    <tr>
+                        <td class="marco">3</td>
+                        @for (int i = 0; i < 8; i++)
+                        {
+                            foreach (var item in Model.Posiciones.Where(e => e.fila == 2 && e.columna == i))
+                            {
+                                <td class="celda @item.clase" id="celda-2-@i"></td>
+                            }
+                        }
+                        <td class="marco">3</td>
+                    </tr>
+                    <tr>
+                        <td class="marco">4</td>
+                        @for (int i = 0; i < 8; i++)
+                        {
+                            foreach (var item in Model.Posiciones.Where(e => e.fila == 3 && e.columna == i))
+                            {
+                                <td class="celda @item.clase" id="celda-3-@i"></td>
+                            }
+                        }
+                        <td class="marco">4</td>
+                    </tr>
+                    <tr>
+                        <td class="marco">5</td>
+                        @for (int i = 0; i < 8; i++)
+                        {
+                            foreach (var item in Model.Posiciones.Where(e => e.fila == 4 && e.columna == i))
+                            {
+                                <td class="celda @item.clase" id="celda-4-@i"></td>
+                            }
+                        }
+                        <td class="marco">5</td>
+                    </tr>
+                    <tr>
+                        <td class="marco">6</td>
+                        @for (int i = 0; i < 8; i++)
+                        {
+                            foreach (var item in Model.Posiciones.Where(e => e.fila == 5 && e.columna == i))
+                            {
+                                <td class="celda @item.clase" id="celda-5-@i"></td>
+                            }
+                        }
+                        <td class="marco">6</td>
+                    </tr>
+                    <tr>
+                        <td class="marco">7</td>
+                        @for (int i = 0; i < 8; i++)
+                        {
+                            foreach (var item in Model.Posiciones.Where(e => e.fila == 6 && e.columna == i))
+                            {
+                                <td class="celda @item.clase" id="celda-6-@i"></td>
+                            }
+                        }
+                        <td class="marco">7</td>
+                    </tr>
+                    <tr>
+                        <td class="marco">8</td>
+                        @for (int i = 0; i < 8; i++)
+                        {
+                            foreach (var item in Model.Posiciones.Where(e => e.fila == 7 && e.columna == i))
+                            {
+                                <td class="celda @item.clase" id="celda-7-@i"></td>
+                            }
+                        }
+                        <td class="marco">8</td>
+                    </tr>
+                    <tr>
+                        <td class="marco"></td>
+                        <td class="marco">A</td>
+                        <td class="marco">B</td>
+                        <td class="marco">C</td>
+                        <td class="marco">D</td>
+                        <td class="marco">E</td>
+                        <td class="marco">F</td>
+                        <td class="marco">G</td>
+                        <td class="marco">H</td>
+                        <td class="marco"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+
+        }
+
+        <br />
+        <input type="submit" value="Turno @ViewBag.turno" class="btn btn-primary" />
     </div>
     <div style=" height: 650px;background-color: rgba(255, 255, 255,0.13);" class="col-lg-3 datos">
+        <center>
+            @if (Model != null)
+            {
+                <br />
+                <p> Jugador 2 : @Model.Partida2.Jugador.nombres</p>
+                <br />
+                <p class="datos">Movimientos : @Model.Partida2.movimientos</p>
+                <br />
+                <p class="datos">Color Ficha : @Model.Partida2.color</p>
+                <br />
+                <p class="datos">Cantidad Fichas : @Model.Partida2.cantidad_fichas</p>
+            }
+        </center>
 
     </div>
 </div>
 
+@try
+{
+<script type="text/javascript">
+        var url = '@Html.Raw(@Url.Action("Individual", "Partida", new { @fila= "color2", @columna = "id_columna2", @id_partida  = Model.id_partida}))';
+
+</script>
+}
+catch (Exception)
+{
+
+}
+@section Scripts { @Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/Tablero.js"></script>
+}
 
