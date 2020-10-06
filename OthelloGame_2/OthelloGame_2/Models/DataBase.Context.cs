@@ -31,5 +31,6 @@ namespace OthelloGame_2.Models
         public virtual DbSet<Tipo_Partida> Tipo_Partida { get; set; }
         public virtual DbSet<Torneo> Torneo { get; set; }
         public virtual DbSet<Torneo_Partida> Torneo_Partida { get; set; }
+        public virtual DbSet<Ficha> Ficha { get; set; }
     }
 }

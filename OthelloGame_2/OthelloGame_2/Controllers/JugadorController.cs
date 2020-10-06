@@ -52,6 +52,11 @@ namespace OthelloGame_2.Controllers
             foreach (Partida partida in eliminar)
             {
                 Partida parti = db.Partida.Find(partida.id_partida);
+                foreach (Ficha item in parti.Ficha)
+                {
+                    Ficha algo = db.Ficha.Find(item.id_ficha);
+                    db.Ficha.Remove(algo);
+                }
                 db.Partida.Remove(parti);
             }
             db.SaveChanges();

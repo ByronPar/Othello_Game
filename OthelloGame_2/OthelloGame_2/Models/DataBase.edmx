@@ -4,7 +4,17 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Othello_GameModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Othello_GameModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Ficha">
+          <Key>
+            <PropertyRef Name="id_ficha" />
+          </Key>
+          <Property Name="id_ficha" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_fila" Type="int" Nullable="false" />
+          <Property Name="id_columna" Type="int" Nullable="false" />
+          <Property Name="id_clase" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="id_partida" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Jugador">
           <Key>
             <PropertyRef Name="id_usuario" />
@@ -85,6 +95,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PartidaFicha">
+          <End Role="Partida" Type="Self.Partida" Multiplicity="1" />
+          <End Role="Ficha" Type="Self.Ficha" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partida">
+              <PropertyRef Name="id_partida" />
+            </Principal>
+            <Dependent Role="Ficha">
+              <PropertyRef Name="id_partida" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PartidaTorneo">
           <End Role="Partida" Type="Self.Partida" Multiplicity="1" />
           <End Role="Torneo_Partida" Type="Self.Torneo_Partida" Multiplicity="*" />
@@ -134,6 +156,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Othello_GameModelStoreContainer">
+          <EntitySet Name="Ficha" EntityType="Self.Ficha" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Jugador" EntityType="Self.Jugador" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pais" EntityType="Self.Pais" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Partida" EntityType="Self.Partida" Schema="dbo" store:Type="Tables" />
@@ -147,6 +170,10 @@
           <AssociationSet Name="FK_Pais" Association="Self.FK_Pais">
             <End Role="Pais" EntitySet="Pais" />
             <End Role="Jugador" EntitySet="Jugador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PartidaFicha" Association="Self.FK_PartidaFicha">
+            <End Role="Partida" EntitySet="Partida" />
+            <End Role="Ficha" EntitySet="Ficha" />
           </AssociationSet>
           <AssociationSet Name="FK_PartidaTorneo" Association="Self.FK_PartidaTorneo">
             <End Role="Partida" EntitySet="Partida" />
@@ -165,8 +192,7 @@
             <End Role="Partida" EntitySet="Partida" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Othello_GameModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -209,6 +235,7 @@
           <NavigationProperty Name="Partida2" Relationship="Self.FK_jugador2" FromRole="Partida1" ToRole="Partida" />
           <NavigationProperty Name="Torneo_Partida" Relationship="Self.FK_PartidaTorneo" FromRole="Partida" ToRole="Torneo_Partida" />
           <NavigationProperty Name="Tipo_Partida" Relationship="Self.FK_Tipo_Partida" FromRole="Partida" ToRole="Tipo_Partida" />
+          <NavigationProperty Name="Ficha" Relationship="Othello_GameModel.FK_PartidaFicha" FromRole="Partida" ToRole="Ficha" />
         </EntityType>
         <EntityType Name="Tipo_Partida">
           <Key>
@@ -341,7 +368,35 @@
             <End Role="Torneo" EntitySet="Torneo" />
             <End Role="Torneo_Partida" EntitySet="Torneo_Partida" />
           </AssociationSet>
+          <EntitySet Name="Ficha" EntityType="Othello_GameModel.Ficha" />
+          <AssociationSet Name="FK_PartidaFicha" Association="Othello_GameModel.FK_PartidaFicha">
+            <End Role="Partida" EntitySet="Partida" />
+            <End Role="Ficha" EntitySet="Ficha" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Ficha">
+          <Key>
+            <PropertyRef Name="id_ficha" />
+          </Key>
+          <Property Name="id_ficha" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_fila" Type="Int32" Nullable="false" />
+          <Property Name="id_columna" Type="Int32" Nullable="false" />
+          <Property Name="id_clase" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id_partida" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Partida" Relationship="Othello_GameModel.FK_PartidaFicha" FromRole="Ficha" ToRole="Partida" />
+        </EntityType>
+        <Association Name="FK_PartidaFicha">
+          <End Type="Othello_GameModel.Partida" Role="Partida" Multiplicity="1" />
+          <End Type="Othello_GameModel.Ficha" Role="Ficha" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partida">
+              <PropertyRef Name="id_partida" />
+            </Principal>
+            <Dependent Role="Ficha">
+              <PropertyRef Name="id_partida" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -407,6 +462,17 @@
                 <ScalarProperty Name="no_ronda" ColumnName="no_ronda" />
                 <ScalarProperty Name="id_torneo" ColumnName="id_torneo" />
                 <ScalarProperty Name="id_partida" ColumnName="id_partida" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ficha">
+            <EntityTypeMapping TypeName="Othello_GameModel.Ficha">
+              <MappingFragment StoreEntitySet="Ficha">
+                <ScalarProperty Name="id_partida" ColumnName="id_partida" />
+                <ScalarProperty Name="id_clase" ColumnName="id_clase" />
+                <ScalarProperty Name="id_columna" ColumnName="id_columna" />
+                <ScalarProperty Name="id_fila" ColumnName="id_fila" />
+                <ScalarProperty Name="id_ficha" ColumnName="id_ficha" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -18,9 +18,8 @@ namespace OthelloGame_2.Controllers
     [Authorize] // significa que solo usuarios registrados entraran en esta modalidad
     public class PartidaController : Controller
     {
-        private bool turnoNegro = true;
         private DataBase db = new DataBase();
-
+        private int id_party ;
         [HttpGet]
         // GET: Partida/Individual
         public ActionResult Individual(string fila = null, string columna = null, int id_partida = 0)
@@ -35,12 +34,36 @@ namespace OthelloGame_2.Controllers
             }
             else
             {
-                
-                ViewBag.turno = "Hice algo";
                 Partida partida = db.Partida.Find(id_partida);
-                return View(partida);
+                id_party = partida.id_partida;
+                if (partida.color == "Negro")
+                {
+                    agregarFicha(fila, columna, 'negro');
+                    ViewBag.turno = "Blanco";
+                }
+                else {
+                    agregarFicha(fila, columna, 'blanco');
+                    ViewBag.turno = "Negro";
+                }
+                girarTodaFicha(splitedId[1], splitedId[2]);
+                actualizarPuntuacion();
+                if (esElFinal())
+                {
+                    ViewBag.turno = "!LA PARTIDA HA TERMINADO¡";
+                    partida = db.Partida.Find(id_partida);
+                    return View(partida);
+                }
+                else {
+                    partida = db.Partida.Find(id_partida);
+                    return View(partida);
+                }
+                
             }
 
+        }
+
+        public void agregarFicha(string fila, string columna, string clase) { 
+        
         }
 
         // POST: Partida/Individual
@@ -55,30 +78,9 @@ namespace OthelloGame_2.Controllers
             //termino de limpiar partidas que no contengan un ganador
             using (db)
             {
-                List<Posicion> posiciones = new List<Posicion>();
-                for (int fila = 0; fila < 8; fila++)
-                {
-                    for (int columna = 0; columna < 8; columna++)
-                    {
-                        if (fila == 3 && columna == 3 || fila == 4 && columna == 4)
-                        {
-                            posiciones.Add(new Posicion(fila, columna, "blanco"));
-                        }
-                        else if (fila == 3 && columna == 4 || fila == 4 && columna == 3)
-                        {
-                            posiciones.Add(new Posicion(fila, columna, "negro"));
-                        }
-                        else if (fila == 3 && columna == 2 || fila == 2 && columna == 3 || fila == 4 && columna == 5 || fila == 5 && columna == 4)
-                        {
-                            posiciones.Add(new Posicion(fila, columna, "valido"));
-                        }
-                        else
-                        {
-                            posiciones.Add(new Posicion(fila, columna));
-                        }
-                    }
-                }
                 
+                
+
 
                 Partida jugador1 = new Partida
                 {
@@ -87,7 +89,7 @@ namespace OthelloGame_2.Controllers
                     cantidad_fichas = 2,
                     id_usuario = User.Identity.Name,
                     id_tipo_partida = 2,
-                    Posiciones = posiciones,
+                    
                     ganador = "",
                     
                     //id_jugador_2  pendiente se asigna despues
@@ -102,6 +104,7 @@ namespace OthelloGame_2.Controllers
                 {
                     color = "Negro";
                 }
+
 
                 Partida jugador2 = new Partida // el contrincante cpu
                 {
@@ -120,7 +123,70 @@ namespace OthelloGame_2.Controllers
                 jugador1.Partida2 = db.Partida.Find(jugador2.id_partida);    //objeto contrincante
                 
                 db.Partida.Add(jugador1);
-
+                Partida modificar;
+                for (int fila = 0; fila < 8; fila++)
+                {
+                    for (int columna = 0; columna < 8; columna++)
+                    {
+                        modificar = db.Partida.Find(jugador1.id_partida);
+                        if (fila == 3 && columna == 3 || fila == 4 && columna == 4)
+                        {
+                            Ficha nueva = new Ficha {
+                                id_fila = fila,
+                                id_columna = columna,
+                                id_clase = "blanco",
+                                id_partida = jugador1.id_partida
+                            };
+                            db.Ficha.Add(nueva);
+                            db.SaveChanges();
+                            modificar.Ficha.Add(nueva);
+                            
+                            
+                        }
+                        else if (fila == 3 && columna == 4 || fila == 4 && columna == 3)
+                        {
+                            Ficha nueva = new Ficha
+                            {
+                                id_fila = fila,
+                                id_columna = columna,
+                                id_clase = "negro",
+                                id_partida = jugador1.id_partida
+                            };
+                            db.Ficha.Add(nueva);
+                            db.SaveChanges();
+                            modificar.Ficha.Add(nueva);
+                        }
+                        else if (fila == 3 && columna == 2 || fila == 2 && columna == 3 || fila == 4 && columna == 5 || fila == 5 && columna == 4)
+                        {
+                            Ficha nueva = new Ficha
+                            {
+                                id_fila = fila,
+                                id_columna = columna,
+                                id_clase = "valido",
+                                id_partida = jugador1.id_partida
+                            };
+                            db.Ficha.Add(nueva);
+                            db.SaveChanges();
+                            modificar.Ficha.Add(nueva);
+                        }
+                        else
+                        {
+                            Ficha nueva = new Ficha
+                            {
+                                id_fila = fila,
+                                id_columna = columna,
+                                id_clase = "",
+                                id_partida = jugador1.id_partida
+                            };
+                            db.Ficha.Add(nueva);
+                            db.SaveChanges();
+                            modificar.Ficha.Add(nueva);
+                        }
+                        
+                        db.Entry(modificar).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
                 if (jugador1.color == "Negro")
                 {
                     ViewBag.turno = jugador1.Jugador.nombres;
@@ -131,8 +197,9 @@ namespace OthelloGame_2.Controllers
                 }
 
 
-                db.SaveChanges();
-                return View(jugador1);
+
+                modificar = db.Partida.Find(jugador1.id_partida);
+                return View(modificar);
             }
 
 

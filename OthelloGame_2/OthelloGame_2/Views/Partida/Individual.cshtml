@@ -29,6 +29,8 @@
         </div>
     }
 }
+
+
 <div class="row">
     <div style=" height: 650px; background-color: rgba(255, 255, 255,0.13);" class="col-lg-3 datos">
         <center>
@@ -80,9 +82,9 @@
                         <td class="marco">1</td>
                         @for (int i = 0; i < 8; i++)
                         {
-                            foreach (var item in Model.Posiciones.Where(e => e.fila == 0 && e.columna == i))
+                            foreach (var item in Model.Ficha.Where(e => e.id_fila == 0 && e.id_columna == i))
                             {
-                                <td class="celda @item.clase" id="celda-0-@i"></td>
+                                <td class="celda @item.id_clase" id="celda-0-@i"></td>
                             }
                         }
                         <td class="marco">1</td>
@@ -91,9 +93,9 @@
                         <td class="marco">2</td>
                         @for (int i = 0; i < 8; i++)
                         {
-                            foreach (var item in Model.Posiciones.Where(e => e.fila == 1 && e.columna == i))
+                            foreach (var item in Model.Ficha.Where(e => e.id_fila == 1 && e.id_columna == i))
                             {
-                                <td class="celda @item.clase" id="celda-1-@i"></td>
+                                <td class="celda @item.id_clase" id="celda-1-@i"></td>
                             }
                         }
                         <td class="marco">2</td>
@@ -102,9 +104,9 @@
                         <td class="marco">3</td>
                         @for (int i = 0; i < 8; i++)
                         {
-                            foreach (var item in Model.Posiciones.Where(e => e.fila == 2 && e.columna == i))
+                            foreach (var item in Model.Ficha.Where(e => e.id_fila == 2 && e.id_columna == i))
                             {
-                                <td class="celda @item.clase" id="celda-2-@i"></td>
+                                <td class="celda @item.id_clase" id="celda-2-@i"></td>
                             }
                         }
                         <td class="marco">3</td>
@@ -113,9 +115,9 @@
                         <td class="marco">4</td>
                         @for (int i = 0; i < 8; i++)
                         {
-                            foreach (var item in Model.Posiciones.Where(e => e.fila == 3 && e.columna == i))
+                            foreach (var item in Model.Ficha.Where(e => e.id_fila == 3 && e.id_columna == i))
                             {
-                                <td class="celda @item.clase" id="celda-3-@i"></td>
+                                <td class="celda @item.id_clase" id="celda-3-@i"></td>
                             }
                         }
                         <td class="marco">4</td>
@@ -124,9 +126,9 @@
                         <td class="marco">5</td>
                         @for (int i = 0; i < 8; i++)
                         {
-                            foreach (var item in Model.Posiciones.Where(e => e.fila == 4 && e.columna == i))
+                            foreach (var item in Model.Ficha.Where(e => e.id_fila == 4 && e.id_columna == i))
                             {
-                                <td class="celda @item.clase" id="celda-4-@i"></td>
+                                <td class="celda @item.id_clase" id="celda-4-@i"></td>
                             }
                         }
                         <td class="marco">5</td>
@@ -135,9 +137,9 @@
                         <td class="marco">6</td>
                         @for (int i = 0; i < 8; i++)
                         {
-                            foreach (var item in Model.Posiciones.Where(e => e.fila == 5 && e.columna == i))
+                            foreach (var item in Model.Ficha.Where(e => e.id_fila == 5 && e.id_columna == i))
                             {
-                                <td class="celda @item.clase" id="celda-5-@i"></td>
+                                <td class="celda @item.id_clase" id="celda-5-@i"></td>
                             }
                         }
                         <td class="marco">6</td>
@@ -146,9 +148,9 @@
                         <td class="marco">7</td>
                         @for (int i = 0; i < 8; i++)
                         {
-                            foreach (var item in Model.Posiciones.Where(e => e.fila == 6 && e.columna == i))
+                            foreach (var item in Model.Ficha.Where(e => e.id_fila == 6 && e.id_columna == i))
                             {
-                                <td class="celda @item.clase" id="celda-6-@i"></td>
+                                <td class="celda @item.id_clase" id="celda-6-@i"></td>
                             }
                         }
                         <td class="marco">7</td>
@@ -157,9 +159,9 @@
                         <td class="marco">8</td>
                         @for (int i = 0; i < 8; i++)
                         {
-                            foreach (var item in Model.Posiciones.Where(e => e.fila == 7 && e.columna == i))
+                            foreach (var item in Model.Ficha.Where(e => e.id_fila == 7 && e.id_columna == i))
                             {
-                                <td class="celda @item.clase" id="celda-7-@i"></td>
+                                <td class="celda @item.id_clase" id="celda-7-@i"></td>
                             }
                         }
                         <td class="marco">8</td>
@@ -206,10 +208,10 @@
 
 @try
 {
-<script type="text/javascript">
+    <script type="text/javascript">
         var url = '@Html.Raw(@Url.Action("Individual", "Partida", new { @fila= "color2", @columna = "id_columna2", @id_partida  = Model.id_partida}))';
 
-</script>
+    </script>
 }
 catch (Exception)
 {

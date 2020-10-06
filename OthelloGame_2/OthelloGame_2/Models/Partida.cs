@@ -19,6 +19,7 @@ namespace OthelloGame_2.Models
         {
             this.Partida1 = new HashSet<Partida>();
             this.Torneo_Partida = new HashSet<Torneo_Partida>();
+            this.Ficha = new HashSet<Ficha>();
         }
     
         public int id_partida { get; set; }
@@ -37,5 +38,7 @@ namespace OthelloGame_2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Torneo_Partida> Torneo_Partida { get; set; }
         public virtual Tipo_Partida Tipo_Partida { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Ficha> Ficha { get; set; }
     }
 }
