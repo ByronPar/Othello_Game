@@ -55,6 +55,13 @@
 
     <div style="background-color: green; height: 650px; text-align:center; " class="col-lg-6">
         <br />
+        @{
+            if (!string.IsNullOrEmpty(ViewBag.Message))
+            {
+                //message tiene valor
+                <div class="alert alert-danger" data-dismiss="alert" id="succes-alert" role="alert">@ViewBag.Message</div>
+            }
+        }
         @using (Html.BeginForm("Registro", "Home"))
         {
             @Html.AntiForgeryToken()
@@ -209,14 +216,23 @@
 @try
 {
     <script type="text/javascript">
-        var url = '@Html.Raw(@Url.Action("Individual", "Partida", new { @fila= "color2", @columna = "id_columna2", @id_partida  = Model.id_partida}))';
 
+        var url = '@Html.Raw(@Url.Action("Individual", "Partida", new { @fila= "color2", @columna = "id_columna2", @id_partida  = Model.id_partida, @turno = "tocaTurno"}))';
+        var jugador2 = '@Model.Partida2.Jugador.nombres';
+        var turno = '@ViewBag.turno';
+        var tocaTurno = "";
+        if (jugador2 == turno) {
+            tocaTurno = '@Model.Partida2.color';
+        } else {
+            tocaTurno = '@Model.color';
+        }
     </script>
 }
 catch (Exception)
 {
 
 }
+@Scripts.Render("~/Scripts/mensajes.js")
 @section Scripts { @Scripts.Render("~/bundles/jqueryval")
 <script src="~/Scripts/Tablero.js"></script>
 }
