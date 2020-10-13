@@ -51,16 +51,18 @@ namespace OthelloGame_2.Controllers
             }
             foreach (Partida partida in eliminar)
             {
-                Partida parti = db.Partida.Find(partida.id_partida);
-                foreach (Ficha item in parti.Ficha)
+                List<Ficha> eliminarlos = new List<Ficha>();
+                foreach (Ficha item in partida.Ficha) eliminarlos.Add(item);
+                foreach (Ficha item in eliminarlos)
                 {
-                    Ficha algo = db.Ficha.Find(item.id_ficha);
-                    db.Ficha.Remove(algo);
+                    Ficha fich = db.Ficha.Find(item.id_ficha);
+                    db.Ficha.Remove(fich);
+                    db.SaveChanges();
                 }
+                Partida parti = db.Partida.Find(partida.id_partida);
                 db.Partida.Remove(parti);
+                db.SaveChanges();
             }
-            db.SaveChanges();
-
             //termino de limpiar partidas que no contengan un ganador
         }
 

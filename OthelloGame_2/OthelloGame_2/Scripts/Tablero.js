@@ -12,7 +12,7 @@ function CalculosControlador(fila, id_columna) {
     var id_columna2 = String(id_columna);
     url = url.replace('color2', id_fila);
     url = url.replace('id_columna2', id_columna2);
-    url = url.replace('tocaTurno', tocaTurno)
+    url = url.replace('tocaTurno', turno)
     window.location.href = url;
 }
 
@@ -49,7 +49,6 @@ const clickCpu = function (elementos) {
     if (!clickEsquina(elementos)) {
         elementos[Math.floor(Math.random() * elementos.length)].click();
     }
-
 };
 
 window.onload = function () {
@@ -58,7 +57,7 @@ window.onload = function () {
         setTimeout(function () {
             const elementos = document.getElementsByClassName('valido');
             clickCpu(elementos);;
-        }, 2000);
+        }, 5000);
     }
 
 };
