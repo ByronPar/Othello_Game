@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Net;
@@ -11,6 +12,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
 using System.Web.UI.WebControls;
+using System.Windows.Forms;
+using System.Xml;
 using Microsoft.Ajax.Utilities;
 using OthelloGame_2.Models;
 
@@ -36,6 +39,11 @@ namespace OthelloGame_2.Controllers
                 metodo.LimpiarBaseDeDatos();
                 //termino de limpiar partidas que no contengan un ganador
                 return View();
+            }
+            else if (fila == "guardado") {
+                PartidaModificar = db.Partida.Find(id_partida);
+                ViewBag.turno = turno;
+                return View(PartidaModificar);
             }
             else
             {
@@ -367,10 +375,6 @@ namespace OthelloGame_2.Controllers
         }
 
 
-
-
-
-
         // POST: Partida/Individual
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -462,6 +466,71 @@ namespace OthelloGame_2.Controllers
             db.Ficha.Add(nueva);
             db.SaveChanges();
             PartidaModificar.Ficha.Add(nueva);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GuardarPartida(string id_partida, string turno) {
+            string turno2 = turno;
+            int id_partida2 = Int32.Parse(id_partida);
+            turno = turno.ToLower();
+            PartidaModificar = db.Partida.Find(id_partida2);
+            XmlDocument doc = new XmlDocument();
+            XmlElement raiz = doc.CreateElement("tablero");
+            doc.AppendChild(raiz);
+            foreach (var item in PartidaModificar.Ficha.Where(e=> e.id_clase != ""))
+            {
+                if (item.id_clase != "valido")
+                {
+                    XmlElement ficha = doc.CreateElement("ficha");
+                    raiz.AppendChild(ficha);
+
+                    XmlElement color = doc.CreateElement("color");
+                    color.AppendChild(doc.CreateTextNode($"{item.id_clase}"));
+                    ficha.AppendChild(color);
+
+                    XmlElement columna = doc.CreateElement("columna");
+                    string letra = letraColumna(item.id_columna);
+                    columna.AppendChild(doc.CreateTextNode(letra));
+                    ficha.AppendChild(columna);
+
+                    XmlElement fila = doc.CreateElement("fila");
+                    int fil = item.id_fila + 1;
+                    fila.AppendChild(doc.CreateTextNode($"{fil.ToString()}"));
+                    ficha.AppendChild(fila);
+                }
+            }
+            XmlElement tiro = doc.CreateElement("siguienteTiro");
+            raiz.AppendChild(tiro);
+
+            XmlElement titulo = doc.CreateElement("color");
+            titulo.AppendChild(doc.CreateTextNode($"{turno}"));
+            tiro.AppendChild(titulo);
+            doc.Save($"C:\\xml\\archivo{id_partida}.xml");
+            return RedirectToAction("Individual", "Partida", new { fila = "guardado", columna = "", id_partida = id_partida2 , turno = turno2 });
+        }
+
+        public string letraColumna(int columna) {
+            switch (columna)
+            {
+                case 0:
+                    return "A";
+                case 1:
+                    return "B";
+                case 2:
+                    return "C";
+                case 3:
+                    return "D";
+                case 4:
+                    return "E";
+                case 5:
+                    return "F";
+                case 6:
+                    return "G";
+                case 7:
+                    return "H";
+            }
+            return "";
         }
     }
 }

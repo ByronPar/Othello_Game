@@ -62,14 +62,22 @@
                 <div class="alert alert-danger" data-dismiss="alert" id="succes-alert" role="alert">@ViewBag.Message</div>
             }
         }
-        @using (Html.BeginForm("Registro", "Home"))
-        {
-            @Html.AntiForgeryToken()
-            <input type="submit" value="Guardar Partida" class="btn btn-primary" />
-        }
-        <br />
         @if (Model != null)
         {
+
+            using (Html.BeginForm("GuardarPartida", "Partida", FormMethod.Post,
+            new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken();
+                <center>
+                    <input name="id_partida" value="@Model.id_partida"/>
+                    <input name="turno" value="@ViewBag.turno"/>
+                    <input type="submit" class="btn btn-success" value="Guardar Partida" />
+                </center>
+            }
+
+            <br />
+
 
             <table class="table table-bordered">
                 <tbody style="color: black">
