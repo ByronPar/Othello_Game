@@ -111,11 +111,11 @@ namespace OthelloGame_2.Controllers
         public void almacenarGanador() {
             if (PartidaModificar.cantidad_fichas > PartidaModificar.Partida2.cantidad_fichas)
             {
-                PartidaModificar.ganador = PartidaModificar.Jugador.nombres;
+                PartidaModificar.ganador = PartidaModificar.Partida2.Jugador.nombres;
             }
             else if (PartidaModificar.cantidad_fichas < PartidaModificar.Partida2.cantidad_fichas)
             {
-                PartidaModificar.ganador = PartidaModificar.Partida2.Jugador.nombres;
+                PartidaModificar.ganador = PartidaModificar.Jugador.nombres;
             }
             else if (PartidaModificar.cantidad_fichas == PartidaModificar.Partida2.cantidad_fichas)
             {
