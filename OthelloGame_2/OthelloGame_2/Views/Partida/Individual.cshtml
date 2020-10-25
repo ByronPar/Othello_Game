@@ -70,8 +70,8 @@
             {
                 @Html.AntiForgeryToken();
                 <center>
-                    <input name="id_partida" value="@Model.id_partida"/>
-                    <input name="turno" value="@ViewBag.turno"/>
+                    <input name="id_partida" value="@Model.id_partida" />
+                    <input name="turno" value="@ViewBag.turno" />
                     <input type="submit" class="btn btn-success" value="Guardar Partida" />
                 </center>
             }
@@ -221,18 +221,23 @@
     </div>
 </div>
 
-@try
+@if (Model != null)
 {
-    <script type="text/javascript">
+    try
+    {
+        <script type="text/javascript">
         var url = '@Html.Raw(@Url.Action("Individual", "Partida", new { @fila= "color2", @columna = "id_columna2", @id_partida  = Model.id_partida, @turno = "tocaTurno"}))';
         var jugador2 = '@Model.Partida2.color';
         var turno = '@ViewBag.turno';
-    </script>
-}
-catch (Exception)
-{
+        </script>
+    }
+    catch (Exception)
+    {
 
+    }
 }
+
+
 @Scripts.Render("~/Scripts/mensajes.js")
 @section Scripts { @Scripts.Render("~/bundles/jqueryval")
 <script src="~/Scripts/Tablero.js"></script>

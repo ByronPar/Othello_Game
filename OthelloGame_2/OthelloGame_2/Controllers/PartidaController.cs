@@ -2,19 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.IO;
-using System.IO.Ports;
 using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Services.Description;
-using System.Web.UI.WebControls;
-using System.Windows.Forms;
 using System.Xml;
-using Microsoft.Ajax.Utilities;
 using OthelloGame_2.Models;
 
 
@@ -97,6 +87,13 @@ namespace OthelloGame_2.Controllers
                     almacenarPartida();
                     ViewBag.Message = noLugar;
                     ActualizarClaseFicha();
+                    if (turnoNegro)
+                    {
+                        ViewBag.turno = "Negro";
+                    }
+                    else {
+                        ViewBag.turno = "Blanco";
+                    }
                     return View(PartidaModificar);
                     // actualizo turno segundo
                 }

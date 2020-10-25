@@ -12,19 +12,22 @@ namespace OthelloGame_2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Torneo
+    public partial class Jugador_Partida
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Torneo()
+        public Jugador_Partida()
         {
-            this.Equipo_Torneo = new HashSet<Equipo_Torneo>();
+            this.Jugador_P_C = new HashSet<Jugador_P_C>();
         }
     
-        public long id_torneo { get; set; }
-        public string nombre { get; set; }
-        public string id_ganador { get; set; }
+        public long id_J_P { get; set; }
+        public int mov { get; set; }
+        public string id_Usuario { get; set; }
+        public long id_Partida { get; set; }
     
+        public virtual Jugador Jugador { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Equipo_Torneo> Equipo_Torneo { get; set; }
+        public virtual ICollection<Jugador_P_C> Jugador_P_C { get; set; }
+        public virtual Partida Partida { get; set; }
     }
 }

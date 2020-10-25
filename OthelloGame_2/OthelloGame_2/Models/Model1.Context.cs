@@ -25,12 +25,18 @@ namespace OthelloGame_2.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Color> Color { get; set; }
+        public virtual DbSet<Equipo> Equipo { get; set; }
+        public virtual DbSet<Equipo_Jugador> Equipo_Jugador { get; set; }
+        public virtual DbSet<Equipo_T_P> Equipo_T_P { get; set; }
+        public virtual DbSet<Equipo_Torneo> Equipo_Torneo { get; set; }
+        public virtual DbSet<Ficha> Ficha { get; set; }
         public virtual DbSet<Jugador> Jugador { get; set; }
+        public virtual DbSet<Jugador_P_C> Jugador_P_C { get; set; }
+        public virtual DbSet<Jugador_Partida> Jugador_Partida { get; set; }
         public virtual DbSet<Pais> Pais { get; set; }
         public virtual DbSet<Partida> Partida { get; set; }
         public virtual DbSet<Tipo_Partida> Tipo_Partida { get; set; }
         public virtual DbSet<Torneo> Torneo { get; set; }
-        public virtual DbSet<Torneo_Partida> Torneo_Partida { get; set; }
-        public virtual DbSet<Ficha> Ficha { get; set; }
     }
 }

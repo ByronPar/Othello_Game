@@ -12,26 +12,23 @@ namespace OthelloGame_2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Partida
+    public partial class Equipo_Torneo
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Partida()
+        public Equipo_Torneo()
         {
             this.Equipo_T_P = new HashSet<Equipo_T_P>();
-            this.Ficha = new HashSet<Ficha>();
-            this.Jugador_Partida = new HashSet<Jugador_Partida>();
         }
     
-        public long id_partida { get; set; }
-        public string id_ganador { get; set; }
-        public int id_tipo_partida { get; set; }
+        public long id_E_T { get; set; }
+        public int puntos { get; set; }
+        public int ronda { get; set; }
+        public long id_equipo { get; set; }
+        public long id_torneo { get; set; }
     
+        public virtual Equipo Equipo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Equipo_T_P> Equipo_T_P { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Ficha> Ficha { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Jugador_Partida> Jugador_Partida { get; set; }
-        public virtual Tipo_Partida Tipo_Partida { get; set; }
+        public virtual Torneo Torneo { get; set; }
     }
 }

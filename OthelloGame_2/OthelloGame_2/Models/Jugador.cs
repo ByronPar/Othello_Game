@@ -17,7 +17,8 @@ namespace OthelloGame_2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Jugador()
         {
-            this.Partida = new HashSet<Partida>();
+            this.Equipo_Jugador = new HashSet<Equipo_Jugador>();
+            this.Jugador_Partida = new HashSet<Jugador_Partida>();
         }
     
         public string id_usuario { get; set; }
@@ -28,8 +29,10 @@ namespace OthelloGame_2.Models
         public string correo { get; set; }
         public int id_pais { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Equipo_Jugador> Equipo_Jugador { get; set; }
         public virtual Pais Pais { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Partida> Partida { get; set; }
+        public virtual ICollection<Jugador_Partida> Jugador_Partida { get; set; }
     }
 }

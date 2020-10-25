@@ -41,7 +41,6 @@ namespace OthelloGame_2.Controllers
             }
             else
             {
-
                 return RedirectToAction("Login", "Home", new { message = "El usuario no existe o la contraseña es incorrecta" });
             }
 

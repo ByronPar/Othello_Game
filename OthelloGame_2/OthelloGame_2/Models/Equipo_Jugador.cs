@@ -12,15 +12,14 @@ namespace OthelloGame_2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Ficha
+    public partial class Equipo_Jugador
     {
-        public long id_ficha { get; set; }
-        public int fila { get; set; }
-        public int columna { get; set; }
-        public long id_partida { get; set; }
-        public int id_color { get; set; }
+        public long id_E_J { get; set; }
+        public int puntos { get; set; }
+        public long id_equipo { get; set; }
+        public string id_usuario { get; set; }
     
-        public virtual Color Color { get; set; }
-        public virtual Partida Partida { get; set; }
+        public virtual Equipo Equipo { get; set; }
+        public virtual Jugador Jugador { get; set; }
     }
 }
