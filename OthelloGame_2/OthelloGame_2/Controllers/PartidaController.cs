@@ -20,103 +20,57 @@ namespace OthelloGame_2.Controllers
 
         [HttpGet]
         // GET: Partida/Individual
-        public ActionResult Individual(string fila = null, string columna = null, int id_partida = 0, string turno = null)
+        public ActionResult Cpu(long id_partida = -5,string turno = "",string Message = "")
         {
-            if (fila == null && columna == null && id_partida == 0 && turno == null)
+            if (id_partida != -5)
             {
+                List<Jugador_Partida> jugadores = db.Jugador_Partida.Where(e => e.id_Partida == id_partida).ToList();
+                var jugador1 = jugadores[0];
+                var jugador2 = jugadores[1];
+                List<Jugador_P_C> colores = db.Jugador_P_C.Where(e => e.id_J_P == jugador1.id_J_P || e.id_J_P == jugador2.id_J_P).ToList();
+                var color1 = colores[0];
+                var color2 = colores[1];
+                ViewBag.turno = turno;
+                ViewBag.Message = Message;
+                //datos del jugador 1
+                ViewBag.jugador1 = jugador1.Jugador.nombres;
+                ViewBag.mov1 = jugador1.mov;
+                ViewBag.color1 = color1.Color.nombre;
+                ViewBag.cant_F1 = db.Ficha.Where(e => e.Color.nombre == color1.Color.nombre).Count();
+                //datos del jugador 2
+                ViewBag.jugador2 = jugador2.Jugador.nombres;
+                ViewBag.mov2 = jugador2.mov;
+                ViewBag.color2 = color2.Color.nombre;
+                ViewBag.cant_F2 = db.Ficha.Where(e => e.Color.nombre == color2.Color.nombre).Count();
+                return View(db.Partida.Find(id_partida));
+            }
+            else {
                 //limpio base de datos 
                 var metodo = new JugadorController();
                 metodo.LimpiarBaseDeDatos();
                 //termino de limpiar partidas que no contengan un ganador
                 return View();
             }
-            else if (fila == "guardado") {
-                PartidaModificar = db.Partida.Find(id_partida);
-                ViewBag.turno = turno;
-                return View(PartidaModificar);
-            }
-            else
-            {
-                int NoFila = Int32.Parse(fila);
-                int NoColumna = Int32.Parse(columna);
-                PartidaModificar = db.Partida.Find(id_partida);
-                RemoverTodaClase();
-                if (turno == "Negro")
-                {
-                    turnoNegro = true;
-                    agregarFicha(NoFila, NoColumna, "negro");
-                    ViewBag.turno = "Blanco";
-                }
-                else
-                {
-                    turnoNegro = false;
-                    agregarFicha(NoFila, NoColumna, "blanco");
-                    ViewBag.turno = "Negro";
-                }
-                agregarTodaFicha(NoFila, NoColumna);
-                ActualizarPuntuacion();
-                if (EsFinal())
-                {
-                    almacenarGanador();
-                    almacenarPartida();
-                    ViewBag.turno = "!LA PARTIDA HA TERMINADO¡";
-                    ViewBag.Message = "La Partida ha concluido";
-                    ActualizarClaseFicha();
-                    return View(PartidaModificar);
-                }
-                // actualiza el turno
-                turnoNegro = !turnoNegro;
-                BuscarCeldasValidas();
-                var fichas = PartidaModificar.Ficha.Where(e => e.id_clase == "valido");
-                if (fichas == null || fichas.Count() == 0)
-                {
-                    NoHayLugar();
-                    //actualizo turno segundo
-                    turnoNegro = !turnoNegro;
-                    BuscarCeldasValidas();
-                    var fichas2 = PartidaModificar.Ficha.Where(e => e.id_clase == "valido");
-                    if (fichas2 == null || fichas2.Count() == 0)
-                    {
-                        almacenarGanador();
-                        almacenarPartida();
-                        ViewBag.turno = "!LA PARTIDA HA TERMINADO¡";
-                        ViewBag.Message = "La Partida ha concluido";
-                        ActualizarClaseFicha();
-                        return View(PartidaModificar);
-                    }
-                    almacenarPartida();
-                    ViewBag.Message = noLugar;
-                    ActualizarClaseFicha();
-                    if (turnoNegro)
-                    {
-                        ViewBag.turno = "Negro";
-                    }
-                    else {
-                        ViewBag.turno = "Blanco";
-                    }
-                    return View(PartidaModificar);
-                    // actualizo turno segundo
-                }
-                // termina de actualiza el turno
-
-                almacenarPartida();
-                ViewBag.Message = noLugar;
-                ActualizarClaseFicha();
-                return View(PartidaModificar);
-            }
         }
         public void almacenarGanador() {
-            if (PartidaModificar.cantidad_fichas > PartidaModificar.Partida2.cantidad_fichas)
+            List<Jugador_Partida> jugadores = db.Jugador_Partida.Where(e => e.id_Partida == PartidaModificar.id_partida).ToList();
+            var jugador1 = jugadores[0];
+            var color1 = db.Jugador_P_C.FirstOrDefault(e=> e.id_J_P == jugador1.id_J_P);
+            var jugador2 = jugadores[1];
+            var color2 = db.Jugador_P_C.FirstOrDefault(e => e.id_J_P == jugador2.id_J_P);
+            var cant1 = PartidaModificar.Ficha.Where(e => e.id_color == color1.id_color).Count();
+            var cant2 = PartidaModificar.Ficha.Where(e => e.id_color == color2.id_color).Count();
+            if (cant1 > cant2)
             {
-                PartidaModificar.ganador = PartidaModificar.Partida2.Jugador.nombres;
+                PartidaModificar.id_ganador = jugador1.id_Usuario;
             }
-            else if (PartidaModificar.cantidad_fichas < PartidaModificar.Partida2.cantidad_fichas)
+            else if (cant1 < cant2)
             {
-                PartidaModificar.ganador = PartidaModificar.Jugador.nombres;
+                PartidaModificar.id_ganador = jugador2.id_Usuario;
             }
-            else if (PartidaModificar.cantidad_fichas == PartidaModificar.Partida2.cantidad_fichas)
+            else if (cant1 == cant2)
             {
-                PartidaModificar.ganador = "empate";
+                PartidaModificar.id_ganador = "empate";
             }
         }
         public void ActualizarClaseFicha()
@@ -124,21 +78,24 @@ namespace OthelloGame_2.Controllers
             foreach (var item in PartidaModificar.Ficha)
             {
                 Ficha modificar = db.Ficha.Find(item.id_ficha);
-                modificar.id_clase = item.id_clase;
+                modificar.id_color = item.Color.id_color;
+                modificar.Color = db.Color.FirstOrDefault(e => e.id_color == item.id_color);
                 db.Entry(modificar).State = EntityState.Modified;
                 db.SaveChanges();
             }
         }
         public void RemoverTodaClase()
         {
-            foreach (var item in PartidaModificar.Ficha.Where(e => e.id_clase == "valido"))
+            foreach (var item in PartidaModificar.Ficha.Where(e => e.Color.nombre == "valido"))
             {
-                item.id_clase = "";
+                item.id_color = db.Color.FirstOrDefault(e=> e.nombre == "nulo").id_color;
+                item.Color = db.Color.FirstOrDefault(e => e.nombre == "nulo");
             }
         }
-        public void agregarFicha(int fila, int columna, string clase)
+        public void agregarFicha(int fila, int columna, string color)
         {
-            PartidaModificar.Ficha.FirstOrDefault(e => e.id_fila == fila && e.id_columna == columna).id_clase = clase;
+            PartidaModificar.Ficha.FirstOrDefault(e => e.fila == fila && e.columna == columna).id_color = db.Color.FirstOrDefault(e=> e.nombre == color).id_color;
+            PartidaModificar.Ficha.FirstOrDefault(e => e.fila == fila && e.columna == columna).Color = db.Color.FirstOrDefault(e => e.nombre == color);
         }
         public void agregarTodaFicha(int fila, int columna)
         {
@@ -158,8 +115,8 @@ namespace OthelloGame_2.Controllers
             List<long> fichas = new List<long>();
             for (int i = 0; i < 7; i++)
             {
-                Ficha ficha = PartidaModificar.Ficha.FirstOrDefault(e => e.id_fila == (fila - conteoFila) && e.id_columna == (columna - conteoColumna));
-                if (ficha == null || ficha.id_clase == "")
+                Ficha ficha = PartidaModificar.Ficha.FirstOrDefault(e => e.fila == (fila - conteoFila) && e.columna == (columna - conteoColumna));
+                if (ficha == null || ficha.Color.nombre == "nulo")
                 {
                     break;
                 }
@@ -185,9 +142,9 @@ namespace OthelloGame_2.Controllers
             }
             return false;
         }
-        public bool tieneClase(Ficha ficha, string clase)
+        public bool tieneClase(Ficha ficha, string color)
         {
-            if (ficha.id_clase == clase)
+            if (ficha.Color.nombre == color)
             {
                 return true;
             }
@@ -204,44 +161,12 @@ namespace OthelloGame_2.Controllers
                 ficha = PartidaModificar.Ficha.FirstOrDefault(e => e.id_ficha == item);
                 if (turnoNegro)
                 {
-                    agregarFicha(ficha.id_fila, ficha.id_columna, "negro");
+                    agregarFicha(ficha.fila, ficha.columna, "negro");
                 }
                 else
                 {
-                    agregarFicha(ficha.id_fila, ficha.id_columna, "blanco");
+                    agregarFicha(ficha.fila, ficha.columna, "blanco");
                 }
-            }
-        }
-        public void ActualizarPuntuacion()
-        {
-            PartidaModificar.cantidad_fichas = 0;
-            PartidaModificar.Partida2.cantidad_fichas = 0;
-            foreach (Ficha item in PartidaModificar.Ficha)
-            {
-                if (item.id_clase == "negro" && PartidaModificar.color == "Negro")
-                {
-                    PartidaModificar.cantidad_fichas += 1;
-                }
-                else if (item.id_clase == "blanco" && PartidaModificar.color == "Blanco")
-                {
-                    PartidaModificar.cantidad_fichas += 1;
-                }
-                else if (item.id_clase == "negro" && PartidaModificar.Partida2.color == "Negro")
-                {
-                    PartidaModificar.Partida2.cantidad_fichas += 1;
-                }
-                else if (item.id_clase == "blanco" && PartidaModificar.Partida2.color == "Blanco")
-                {
-                    PartidaModificar.Partida2.cantidad_fichas += 1;
-                }
-            }
-            if ((PartidaModificar.color == "Negro" && turnoNegro) || (PartidaModificar.color == "Blanco" && turnoNegro == false))
-            {
-                PartidaModificar.movimientos += 1;
-            }
-            else
-            {
-                PartidaModificar.Partida2.movimientos += 1;
             }
         }
         public void ActualizarTurno(bool turno)
@@ -249,7 +174,7 @@ namespace OthelloGame_2.Controllers
             turnoNegro = turno;
             BuscarCeldasValidas();
             /// CONTINUAR AAAAAAAAAAAAAAQUIIIIIIIIIIIII
-            var fichas = PartidaModificar.Ficha.Where(e => e.id_clase == "valido");
+            var fichas = PartidaModificar.Ficha.Where(e => e.Color.nombre == "valido");
             if (fichas == null || fichas.Count() == 0)
             {
                 NoHayLugar();
@@ -262,8 +187,8 @@ namespace OthelloGame_2.Controllers
             {
                 for (int columna = 0; columna < 8; columna++)
                 {
-                    Ficha ficha = PartidaModificar.Ficha.FirstOrDefault(e => e.id_fila == fila && e.id_columna == columna);
-                    if (ficha.id_clase == "")
+                    Ficha ficha = PartidaModificar.Ficha.FirstOrDefault(e => e.fila == fila && e.columna == columna);
+                    if (ficha.Color.nombre == "nulo")
                     {
                         if (FichaValida(fila, columna))
                         {
@@ -294,8 +219,8 @@ namespace OthelloGame_2.Controllers
             int conteoColumna = agregarColumna;
             for (int i = 0; i < 7; i++)
             {
-                Ficha ficha = PartidaModificar.Ficha.FirstOrDefault(e => e.id_fila == (fila - conteoFila) && e.id_columna == (columna - conteoColumna));
-                if (ficha == null || ficha.id_clase == "" || ficha.id_clase == "valido")
+                Ficha ficha = PartidaModificar.Ficha.FirstOrDefault(e => e.fila == (fila - conteoFila) && e.columna == (columna - conteoColumna));
+                if (ficha == null || ficha.Color.nombre == "nulo" || ficha.Color.nombre == "valido")
                 {
                     return false;
                 }
@@ -330,7 +255,7 @@ namespace OthelloGame_2.Controllers
         {
             turnoNegro = actualizarNegro;
             BuscarCeldasValidas();
-            var fichas = PartidaModificar.Ficha.Where(e => e.id_clase == "valido");
+            var fichas = PartidaModificar.Ficha.Where(e => e.Color.nombre == "valido");
             if (fichas == null || fichas.Count() == 0)
             {
                 NoHayLugar();
@@ -341,7 +266,7 @@ namespace OthelloGame_2.Controllers
             bool lleno = true;
             foreach (var item in PartidaModificar.Ficha)
             {
-                if (item.id_clase == "" || item.id_clase == "valido")
+                if (item.Color.nombre == "nulo" || item.Color.nombre == "valido")
                 {
                     lleno = false;
                 }
@@ -351,12 +276,12 @@ namespace OthelloGame_2.Controllers
                 return true;
             }
 
-            var negros = PartidaModificar.Ficha.Where(e => e.id_clase == "negro");
+            var negros = PartidaModificar.Ficha.Where(e => e.Color.nombre == "negro");
             if (negros == null || negros.Count() == 0)
             {
                 return true;
             }
-            var blancos = PartidaModificar.Ficha.Where(e => e.id_clase == "blanco");
+            var blancos = PartidaModificar.Ficha.Where(e => e.Color.nombre == "blanco");
             if (blancos == null || blancos.Count() == 0)
             {
                 return true;
@@ -370,13 +295,33 @@ namespace OthelloGame_2.Controllers
             db.Entry(PartidaModificar).State = EntityState.Modified;
             db.SaveChanges();
         }
+        public void ActualizarPuntuacion()
+        {
+            List<Jugador_Partida> jugadores = db.Jugador_Partida.Where(e => e.id_Partida == PartidaModificar.id_partida).ToList();
+            var jugador1 = jugadores[0];
+            var color1 = db.Jugador_P_C.FirstOrDefault(e => e.id_J_P == jugador1.id_J_P);
+            var jugador2 = jugadores[1];
+            var color2 = db.Jugador_P_C.FirstOrDefault(e => e.id_J_P == jugador2.id_J_P);
+            
+            if ((color1.Color.nombre == "negro" && turnoNegro) || (color1.Color.nombre == "blanco" && turnoNegro == false))
+            {
+                jugador1.mov += 1;
+            }
+            else
+            {
+                jugador2.mov += 1;
+            }
+            db.Entry(jugador1).State = EntityState.Modified;
+            db.Entry(jugador2).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+    
 
 
         // POST: Partida/Individual
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [ActionName("Individual")]
-        public ActionResult Individual1(string color)
+        public ActionResult Cpu(string color)
         {
             //limpio base de datos 
             var metodo = new JugadorController();
@@ -384,43 +329,58 @@ namespace OthelloGame_2.Controllers
             //termino de limpiar partidas que no contengan un ganador
             using (db)
             {
-                Partida jugador1 = new Partida
+                Partida partida = new Partida
                 {
-                    color = color,
-                    movimientos = 0,
-                    cantidad_fichas = 2,
-                    id_usuario = User.Identity.Name,
-                    id_tipo_partida = 2,
-                    ganador = "",
-                    Jugador = db.Jugador.Find(User.Identity.Name),
-                    Tipo_Partida = db.Tipo_Partida.Find(2)
+                    id_ganador = "",
+                    id_tipo_partida = 1004,
+                    Tipo_Partida = db.Tipo_Partida.Find(1004)
                 };
-                if (color == "Negro")
+                db.Partida.Add(partida);
+                db.SaveChanges();
+                Jugador_Partida jugador1 = new Jugador_Partida { 
+                    mov = 0,
+                    id_Usuario = User.Identity.Name,
+                    id_Partida = partida.id_partida,
+                    Partida = db.Partida.FirstOrDefault(e=> e.id_partida == partida.id_partida),
+                    Jugador = db.Jugador.FirstOrDefault(e=> e.id_usuario == User.Identity.Name)
+                };
+                Jugador_Partida jugador2 = new Jugador_Partida //SIEMPRE SERA EL CPU en tipo de partida contra cpu
                 {
-                    color = "Blanco";
+                    mov = 0,
+                    id_Usuario = "CPU",
+                    id_Partida = partida.id_partida,
+                    Partida = db.Partida.FirstOrDefault(e => e.id_partida == partida.id_partida),
+                    Jugador = db.Jugador.FirstOrDefault(e => e.id_usuario == "CPU")
+                };
+                db.Jugador_Partida.Add(jugador1);
+                db.Jugador_Partida.Add(jugador2);
+                db.SaveChanges();
+                Jugador_P_C color1 = new Jugador_P_C
+                {
+                    id_J_P = jugador1.id_J_P,
+                    id_color = db.Color.FirstOrDefault(e=>e.nombre == color).id_color,
+                    Color = db.Color.FirstOrDefault(e=>e.nombre == color),
+                    Jugador_Partida = db.Jugador_Partida.FirstOrDefault(e=> e.id_J_P == jugador1.id_J_P)
+                };
+                if (color == "negro")
+                {
+                    color = "blanco";
                 }
                 else
                 {
-                    color = "Negro";
+                    color = "negro";
                 }
-                Partida jugador2 = new Partida // el contrincante cpu
+                Jugador_P_C color2 = new Jugador_P_C
                 {
-                    color = color,
-                    movimientos = 0,
-                    cantidad_fichas = 2,
-                    id_usuario = "cpu",
-                    id_tipo_partida = 2,
-                    ganador = "",
-                    Jugador = db.Jugador.Find("cpu"),
-                    Tipo_Partida = db.Tipo_Partida.Find(2)
+                    id_J_P = jugador2.id_J_P,
+                    id_color = db.Color.FirstOrDefault(e => e.nombre == color).id_color,
+                    Color = db.Color.FirstOrDefault(e => e.nombre == color),
+                    Jugador_Partida = db.Jugador_Partida.FirstOrDefault(e => e.id_J_P == jugador2.id_J_P)
                 };
-                db.Partida.Add(jugador2);
+                db.Jugador_P_C.Add(color1);
+                db.Jugador_P_C.Add(color2);
                 db.SaveChanges();
-                jugador1.id_jugador_2 = jugador2.id_partida;    //contrincante
-                jugador1.Partida2 = db.Partida.Find(jugador2.id_partida);    //objeto contrincante
-                db.Partida.Add(jugador1);
-                db.SaveChanges();
-                PartidaModificar = db.Partida.Find(jugador1.id_partida);
+                PartidaModificar = db.Partida.Find(partida.id_partida);
                 for (int fila = 0; fila < 8; fila++)
                 {
                     for (int columna = 0; columna < 8; columna++)
@@ -439,26 +399,39 @@ namespace OthelloGame_2.Controllers
                         }
                         else
                         {
-                            CrearFicha(fila, columna, "", PartidaModificar.id_partida);
+                            CrearFicha(fila, columna, "nulo", PartidaModificar.id_partida);
                         }
                     }
                 }    // creo mis fichas y se las asigno 
 
                 db.Entry(PartidaModificar).State = EntityState.Modified;
                 db.SaveChanges();
-                ViewBag.turno = "Negro";
+                ViewBag.turno = "negro";
+                //datos del jugador 1
+                ViewBag.jugador1 = jugador1.Jugador.nombres;
+                ViewBag.mov1 = jugador1.mov;
+                ViewBag.color1 = color1.Color.nombre;
+                ViewBag.cant_F1 = db.Ficha.Where(e => e.Color.nombre == color1.Color.nombre).Count();
+                //datos del jugador 2
+                ViewBag.jugador2 = jugador2.Jugador.nombres;
+                ViewBag.mov2 = jugador2.mov;
+                ViewBag.color2 = color2.Color.nombre;
+                ViewBag.cant_F2 = db.Ficha.Where(e => e.Color.nombre == color2.Color.nombre).Count();
                 return View(PartidaModificar);
             }
         }
 
-        public void CrearFicha(int fila, int columna, string clase, int id_partida)
+        public void CrearFicha(int fila, int columna, string color, long id_partida)
         {
+            var Color= db.Color.FirstOrDefault(e => e.nombre == color);
             Ficha nueva = new Ficha
             {
-                id_fila = fila,
-                id_columna = columna,
-                id_clase = clase,
-                id_partida = id_partida
+                fila = fila,
+                columna = columna,
+                id_color = Color.id_color,
+                id_partida = id_partida,
+                Color = db.Color.FirstOrDefault(e=> e.id_color == Color.id_color),
+                Partida = db.Partida.FirstOrDefault(e=>e.id_partida == id_partida)
             };
             db.Ficha.Add(nueva);
             db.SaveChanges();
@@ -468,31 +441,29 @@ namespace OthelloGame_2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult GuardarPartida(string id_partida, string turno) {
-            string turno2 = turno;
             int id_partida2 = Int32.Parse(id_partida);
-            turno = turno.ToLower();
             PartidaModificar = db.Partida.Find(id_partida2);
             XmlDocument doc = new XmlDocument();
             XmlElement raiz = doc.CreateElement("tablero");
             doc.AppendChild(raiz);
-            foreach (var item in PartidaModificar.Ficha.Where(e=> e.id_clase != ""))
+            foreach (var item in PartidaModificar.Ficha.Where(e=> e.Color.nombre != "nulo"))
             {
-                if (item.id_clase != "valido")
+                if (item.Color.nombre != "valido")
                 {
                     XmlElement ficha = doc.CreateElement("ficha");
                     raiz.AppendChild(ficha);
 
                     XmlElement color = doc.CreateElement("color");
-                    color.AppendChild(doc.CreateTextNode($"{item.id_clase}"));
+                    color.AppendChild(doc.CreateTextNode($"{item.Color.nombre}"));
                     ficha.AppendChild(color);
 
                     XmlElement columna = doc.CreateElement("columna");
-                    string letra = letraColumna(item.id_columna);
+                    string letra = letraColumna(item.columna);
                     columna.AppendChild(doc.CreateTextNode(letra));
                     ficha.AppendChild(columna);
 
                     XmlElement fila = doc.CreateElement("fila");
-                    int fil = item.id_fila + 1;
+                    int fil = item.fila + 1;
                     fila.AppendChild(doc.CreateTextNode($"{fil.ToString()}"));
                     ficha.AppendChild(fila);
                 }
@@ -504,7 +475,7 @@ namespace OthelloGame_2.Controllers
             titulo.AppendChild(doc.CreateTextNode($"{turno}"));
             tiro.AppendChild(titulo);
             doc.Save($"C:\\xml\\archivo{id_partida}.xml");
-            return RedirectToAction("Individual", "Partida", new { fila = "guardado", columna = "", id_partida = id_partida2 , turno = turno2 });
+            return RedirectToAction("Cpu", "Partida", new { id_partida = PartidaModificar.id_partida, turno, Message = ""});
         }
 
         public string letraColumna(int columna) {
@@ -528,6 +499,78 @@ namespace OthelloGame_2.Controllers
                     return "H";
             }
             return "";
+        }
+
+        [HttpGet]
+        public ActionResult NewTiro(string fila = null, string columna = null, long id_partida = 0, string turno = null) {
+            int NoFila = Int32.Parse(fila);
+            int NoColumna = Int32.Parse(columna);
+            string Message = "";
+            PartidaModificar = db.Partida.Find(id_partida);
+            RemoverTodaClase();
+            if (turno == "negro")
+            {
+                turnoNegro = true;
+                agregarFicha(NoFila, NoColumna, "negro");
+                turno = "blanco";
+            }
+            else
+            {
+                turnoNegro = false;
+                agregarFicha(NoFila, NoColumna, "blanco");
+                turno = "negro";
+            }
+            agregarTodaFicha(NoFila, NoColumna);
+            ActualizarPuntuacion();
+            if (EsFinal())
+            {
+                almacenarGanador();
+                almacenarPartida();
+                turno = "!LA PARTIDA HA TERMINADO¡";
+                Message = "La Partida ha concluido";
+                ActualizarClaseFicha();
+                return RedirectToAction("Cpu", "Partida", new { id_partida = PartidaModificar.id_partida, turno, Message });
+            }
+            // actualiza el turno
+            turnoNegro = !turnoNegro;
+            BuscarCeldasValidas();
+            var fichas = PartidaModificar.Ficha.Where(e => e.Color.nombre == "valido");
+            if (fichas == null || fichas.Count() == 0)
+            {
+                NoHayLugar();
+                //actualizo turno segundo
+                turnoNegro = !turnoNegro;
+                BuscarCeldasValidas();
+                var fichas2 = PartidaModificar.Ficha.Where(e => e.Color.nombre == "valido");
+                if (fichas2 == null || fichas2.Count() == 0)
+                {
+                    almacenarGanador();
+                    almacenarPartida();
+                    turno = "!LA PARTIDA HA TERMINADO¡";
+                    Message = "La Partida ha concluido";
+                    ActualizarClaseFicha();
+                    return RedirectToAction("Cpu", "Partida", new { id_partida = PartidaModificar.id_partida, turno, Message });
+                }
+                almacenarPartida();
+                Message = noLugar;
+                ActualizarClaseFicha();
+                if (turnoNegro)
+                {
+                    turno = "Negro";
+                }
+                else
+                {
+                    turno = "Blanco";
+                }
+                return RedirectToAction("Cpu", "Partida", new { id_partida = PartidaModificar.id_partida, turno, Message });
+                // actualizo turno segundo
+            }
+            // termina de actualiza el turno
+
+            almacenarPartida();
+            Message = noLugar;
+            ActualizarClaseFicha();
+            return RedirectToAction("Cpu", "Partida", new { id_partida = PartidaModificar.id_partida, turno, Message });
         }
     }
 }

@@ -7,13 +7,13 @@
                 Jugar Individual
             </a>
             <ul class="dropdown-menu">
-                <li class="nav-item">@Html.ActionLink("Nueva Partida", "Individual", "Partida", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                <li class="nav-item">@Html.ActionLink("Nueva Partida", "Cpu", "Partida", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
                 <li class="nav-item">@Html.ActionLink("Cargar Partida", "Perfil", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
             </ul>
         </li>
         <li>@Html.ActionLink("Multiplayer", "Multiplayer", "Partida", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
         <li>@Html.ActionLink("Torneo", "Perfil", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-        <li>@Html.ActionLink("Reportes", "Perfil", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("Othello X", "Perfil", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
         <li>@Html.ActionLink("Cerrar Sesión", "CerrarSesion", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
 }
