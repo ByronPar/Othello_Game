@@ -1,21 +1,37 @@
 ﻿@if (User.Identity.IsAuthenticated)
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Ver Perfil " + User.Identity.Name, "Perfil", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">
-                Jugar Individual
-            </a>
-            <ul class="dropdown-menu">
-                <li class="nav-item">@Html.ActionLink("Nueva Partida", "Cpu", "Partida", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-                <li class="nav-item">@Html.ActionLink("Cargar Partida", "Perfil", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-            </ul>
-        </li>
-        <li>@Html.ActionLink("Multiplayer", "Multiplayer", "Partida", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-        <li>@Html.ActionLink("Torneo", "Perfil", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-        <li>@Html.ActionLink("Othello X", "Perfil", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-        <li>@Html.ActionLink("Cerrar Sesión", "CerrarSesion", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+<ul class="nav navbar-nav navbar-right">
+    <li>@Html.ActionLink("Ver Perfil " + User.Identity.Name, "Perfil", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">
+            Jugar Individual
+        </a>
+        <ul class="dropdown-menu">
+            <li class="nav-item">@Html.ActionLink("Nueva Partida", "Cpu", "Partida", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+            <li class="nav-item">@Html.ActionLink("Cargar Partida", "Perfil", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        </ul>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">
+            Jugar Multiplayer
+        </a>
+        <ul class="dropdown-menu">
+            <li class="nav-item">@Html.ActionLink("Nueva Partida", "Cpu", "Partida", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+            <li class="nav-item">@Html.ActionLink("Cargar Partida", "Perfil", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        </ul>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">
+            Torneo
+        </a>
+        <ul class="dropdown-menu">
+            <li class="nav-item">@Html.ActionLink("Cargar Torneo", "CargaXML", "Torneo", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+            <li class="nav-item">@Html.ActionLink("Todos los Torneos", "Index", "Torneo", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        </ul>
+    </li>
+    <li>@Html.ActionLink("Othello X", "Perfil", "Jugador", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    <li>@Html.ActionLink("Cerrar Sesión", "CerrarSesion", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+</ul>
 }
 else
 {

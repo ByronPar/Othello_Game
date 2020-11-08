@@ -53,11 +53,10 @@ const clickCpu = function (elementos) {
 
 window.onload = function () {
     agregarEventos();
-    if (turno == jugador2) {
-        setTimeout(function () {
-            const elementos = document.getElementsByClassName('valido');
-            clickCpu(elementos);;
-        }, 5000);
-    }
-
+    //if (turno == jugador2) {
+    //    setTimeout(function () {
+    //        const elementos = document.getElementsByClassName('valido');
+    //        clickCpu(elementos);;
+    //    }, 5000);
+    //}
 };

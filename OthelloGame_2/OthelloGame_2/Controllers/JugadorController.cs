@@ -40,7 +40,7 @@ namespace OthelloGame_2.Controllers
             List<Ficha> FichasEliminar = new List<Ficha>();
             List<Jugador_Partida> J_P = new List<Jugador_Partida>();
             List<Jugador_P_C> J_P_C = new List<Jugador_P_C>();
-            foreach (Partida partida in db.Partida.Where(e => e.id_ganador == ""))
+            foreach (Partida partida in db.Partida.Where(e => e.id_ganador == "" && e.Tipo_Partida.nombre == "cpu"))
             {
                 PartidasEliminar.Add(partida);
                 foreach (Ficha item in db.Ficha.Where(e => e.id_partida == partida.id_partida))
@@ -56,26 +56,14 @@ namespace OthelloGame_2.Controllers
                     }
                 }
             }
-            foreach (var item in FichasEliminar)
-            {
-                db.Ficha.Remove(item);
-                db.SaveChanges();
-            }
-            foreach (var item in J_P_C)
-            {
-                db.Jugador_P_C.Remove(item);
-                db.SaveChanges();
-            }
-            foreach (var item in J_P)
-            {
-                db.Jugador_Partida.Remove(item);
-                db.SaveChanges();
-            }
-            foreach (var item in PartidasEliminar)
-            {
-                db.Partida.Remove(item);
-                db.SaveChanges();
-            }
+            db.Ficha.RemoveRange(FichasEliminar);
+            db.SaveChanges();
+            db.Jugador_P_C.RemoveRange(J_P_C);
+            db.SaveChanges();
+            db.Jugador_Partida.RemoveRange(J_P);
+            db.SaveChanges();
+            db.Partida.RemoveRange(PartidasEliminar);
+            db.SaveChanges();
         }
 
         // GET: Jugador/Create

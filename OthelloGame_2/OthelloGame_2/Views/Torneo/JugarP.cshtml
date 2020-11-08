@@ -1,0 +1,218 @@
+﻿@model OthelloGame_2.Models.Partida
+
+@{
+    ViewBag.Title = "JugarP";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/Tablero.css" />
+@if (Model != null)
+{
+    <div class="row">
+        <div style=" height: 650px; background-color: rgba(255, 255, 255,0.13);" class="col-lg-3 datos">
+            <center>
+                <script>
+                    document.getElementById("overlay").style.display = "none";
+                </script>
+                <br />
+                <p> Jugador 1 : @ViewBag.jugador1 </p>
+                <br />
+                <p class="datos">Movimientos : @ViewBag.mov1 </p>
+                <br />
+                <p class="datos">Color Ficha : @ViewBag.color1 </p>
+                <br />
+                <p class="datos">Cantidad Fichas : @ViewBag.cant_F1 </p>
+                @using (Html.BeginForm("GuardarGanador", "Torneo", FormMethod.Post,
+            new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken();
+            <center>
+                <font color="black"><input name="id_ganador" value="@ViewBag.jugador1" />
+                                    <input name="id_partida" value="@Model.id_partida" />
+                </font>
+                <input type="submit" class="btn btn-success" value="Ganador" />
+            </center>
+                        }
+            </center>
+
+        </div>
+        <div style="background-color: green; height: 650px; text-align:center; " class="col-lg-6">
+            <br />
+
+            @using (Html.BeginForm("GuardarPartida", "Partida", FormMethod.Post,
+            new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken();
+                    <input name="id_partida" value="@Model.id_partida" />
+                    <input name="turno" value="@ViewBag.turno" />
+                    <input type="submit" class="btn btn-success" value="Guardar Partida" />
+            }
+
+            <br />
+
+            <table class="table table-bordered">
+                <tbody style="color: black">
+                    <tr>
+                        <td class="marco"></td>
+                        <td class="marco">A</td>
+                        <td class="marco">B</td>
+                        <td class="marco">C</td>
+                        <td class="marco">D</td>
+                        <td class="marco">E</td>
+                        <td class="marco">F</td>
+                        <td class="marco">G</td>
+                        <td class="marco">H</td>
+                        <td class="marco"></td>
+                    </tr>
+                    <tr>
+                        <td class="marco">1</td>
+                        @for (int i = 0; i < 8; i++)
+                        {
+                            foreach (var item in Model.Ficha.Where(e => e.fila == 0 && e.columna == i))
+                            {
+                                <td class="celda @item.Color.nombre" id="celda-0-@i"></td>
+                            }
+                        }
+                        <td class="marco">1</td>
+                    </tr>
+                    <tr>
+                        <td class="marco">2</td>
+                        @for (int i = 0; i < 8; i++)
+                        {
+                            foreach (var item in Model.Ficha.Where(e => e.fila == 1 && e.columna == i))
+                            {
+                                <td class="celda @item.Color.nombre" id="celda-1-@i"></td>
+                            }
+                        }
+                        <td class="marco">2</td>
+                    </tr>
+                    <tr>
+                        <td class="marco">3</td>
+                        @for (int i = 0; i < 8; i++)
+                        {
+                            foreach (var item in Model.Ficha.Where(e => e.fila == 2 && e.columna == i))
+                            {
+                                <td class="celda @item.Color.nombre" id="celda-2-@i"></td>
+                            }
+                        }
+                        <td class="marco">3</td>
+                    </tr>
+                    <tr>
+                        <td class="marco">4</td>
+                        @for (int i = 0; i < 8; i++)
+                        {
+                            foreach (var item in Model.Ficha.Where(e => e.fila == 3 && e.columna == i))
+                            {
+                                <td class="celda @item.Color.nombre" id="celda-3-@i"></td>
+                            }
+                        }
+                        <td class="marco">4</td>
+                    </tr>
+                    <tr>
+                        <td class="marco">5</td>
+                        @for (int i = 0; i < 8; i++)
+                        {
+                            foreach (var item in Model.Ficha.Where(e => e.fila == 4 && e.columna == i))
+                            {
+                                <td class="celda @item.Color.nombre" id="celda-4-@i"></td>
+                            }
+                        }
+                        <td class="marco">5</td>
+                    </tr>
+                    <tr>
+                        <td class="marco">6</td>
+                        @for (int i = 0; i < 8; i++)
+                        {
+                            foreach (var item in Model.Ficha.Where(e => e.fila == 5 && e.columna == i))
+                            {
+                                <td class="celda @item.Color.nombre" id="celda-5-@i"></td>
+                            }
+                        }
+                        <td class="marco">6</td>
+                    </tr>
+                    <tr>
+                        <td class="marco">7</td>
+                        @for (int i = 0; i < 8; i++)
+                        {
+                            foreach (var item in Model.Ficha.Where(e => e.fila == 6 && e.columna == i))
+                            {
+                                <td class="celda @item.Color.nombre" id="celda-6-@i"></td>
+                            }
+                        }
+                        <td class="marco">7</td>
+                    </tr>
+                    <tr>
+                        <td class="marco">8</td>
+                        @for (int i = 0; i < 8; i++)
+                        {
+                            foreach (var item in Model.Ficha.Where(e => e.fila == 7 && e.columna == i))
+                            {
+                                <td class="celda @item.Color.nombre" id="celda-7-@i"></td>
+                            }
+                        }
+                        <td class="marco">8</td>
+                    </tr>
+                    <tr>
+                        <td class="marco"></td>
+                        <td class="marco">A</td>
+                        <td class="marco">B</td>
+                        <td class="marco">C</td>
+                        <td class="marco">D</td>
+                        <td class="marco">E</td>
+                        <td class="marco">F</td>
+                        <td class="marco">G</td>
+                        <td class="marco">H</td>
+                        <td class="marco"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br />
+            <input type="submit" value="Turno @ViewBag.turno" class="btn btn-primary" />
+        </div>
+        <div style=" height: 650px;background-color: rgba(255, 255, 255,0.13);" class="col-lg-3 datos">
+            <center>
+                <br />
+                <p> Jugador 2 : @ViewBag.jugador2 </p>
+                <br />
+                <p class="datos">Movimientos : @ViewBag.mov2 </p>
+                <br />
+                <p class="datos">Color Ficha : @ViewBag.color2 </p>
+                <br />
+                <p class="datos">Cantidad Fichas : @ViewBag.cant_F2 </p>
+                @using (Html.BeginForm("GuardarGanador", "Torneo", FormMethod.Post,
+            new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken();
+            <font color="black">
+                <input name="id_ganador" value="@ViewBag.jugador2" />
+                <input name="id_partida" value="@Model.id_partida" />
+            </font>
+                <input type="submit" class="btn btn-success" value="Ganador" />
+                }
+</center>
+
+        </div>
+    </div>
+
+    try
+    {
+        <script type="text/javascript">
+        var url = '@Html.Raw(@Url.Action("NewTiro", "Partida", new { @fila= "color2", @columna = "id_columna2", @id_partida  = Model.id_partida, @turno = "tocaTurno"}))';
+        var jugador2 = '@ViewBag.color2';
+        var turno = '@ViewBag.turno';
+        </script>
+    }
+    catch (Exception)
+    {
+
+    }
+}
+
+
+
+
+@Scripts.Render("~/Scripts/mensajes.js")
+@section Scripts { @Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/Tablero.js"></script>
+}
+

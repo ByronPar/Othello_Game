@@ -1,0 +1,57 @@
+﻿@model IEnumerable<OthelloGame_2.Models.Partida>
+
+@{
+    ViewBag.Title = "Jugar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container body-content" style="background-color: white; ">
+    <h2>Partidas del Torneo "@ViewBag.NameTorneo"</h2>
+    @{
+        if (!string.IsNullOrEmpty(ViewBag.Message))  // en caso de que la partida ya tenga un ganador no se podra jugar o
+            //para mencionar que se ha creado una nueva partida para desempate 
+        {
+            //message tiene valor
+            <div class="alert alert-danger" data-dismiss="alert" id="succes-alert" role="alert">@ViewBag.Message</div>
+        }
+    }
+    <br />
+    <div>
+        @Html.ActionLink("Regresar a listado de mis torneos", "Index")
+    </div>
+    <br />
+    <table class="table">
+        <tr>
+            <th>
+                Jugador 1
+            </th>
+            <th>
+                Jugador 2
+            </th>
+            <th>
+                Ganador
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                @foreach (var jugador in item.Jugador_Partida)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => jugador.Jugador.id_usuario)
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(e=> item.id_ganador)
+                </td>
+                <td>
+                    @Html.ActionLink("Jugar Partida", "JugarP", new { id = item.id_partida }) 
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+    
+    @Scripts.Render("~/Scripts/mensajes.js")

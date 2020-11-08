@@ -1,0 +1,40 @@
+﻿@model IEnumerable<OthelloGame_2.Models.Torneo>
+
+@{
+    ViewBag.Title = "MiTorneo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de Torneos en los que participo: </h2>
+@{
+    if (!string.IsNullOrEmpty(ViewBag.Message))  // en caso de que el torneo ya tenga un ganador no se podra jugar 
+    {
+        //message tiene valor
+        <div class="alert alert-danger" data-dismiss="alert" id="succes-alert" role="alert">@ViewBag.Message</div>
+    }
+}
+<table class="table">
+    <tr>
+        <th>
+            Nombre
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.nombre)
+            </td>
+            <td>
+                @Html.ActionLink("Jugar", "Jugar", new { id = item.id_torneo }) |
+                @Html.ActionLink("Ver Esquema", "Edit", new { id = item.id_torneo }) |
+                @Html.ActionLink("Detalle de Torneo", "Delete", new { id = item.id_torneo }) |
+                @Html.ActionLink("Eliminar Torneo", "Delete", new { id = item.id_torneo })
+            </td>
+        </tr>
+    }
+
+</table>
+@Scripts.Render("~/Scripts/mensajes.js")

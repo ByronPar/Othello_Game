@@ -1,0 +1,44 @@
+﻿@model IEnumerable<OthelloGame_2.Models.Torneo>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container body-content" style="background-color: white; ">
+
+    <h2>Lista de Torneos Creados y posibles para unirse</h2>
+    @{
+        if (!string.IsNullOrEmpty(ViewBag.Message)) // en caso de que te hayas unido a un torneo
+        {
+            //message tiene valor
+            <div class="alert alert-success" data-dismiss="alert" id="succes-alert" role="alert">@ViewBag.Message</div>
+        }
+    }
+    <table class="table">
+        <tr>
+            <th>
+                <strong>Nombre</strong>
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombre)
+                </td>
+                <td>
+                    @Html.ActionLink("Ver Esquema", "Esquema", new { id = item.id_torneo }) |
+                    @Html.ActionLink("Unirse a Torneo", "Unirse", new { id = item.id_torneo }) |
+                    @Html.ActionLink("Eliminar Torneo", "Delete", new { id = item.id_torneo })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/mensajes.js")
+}

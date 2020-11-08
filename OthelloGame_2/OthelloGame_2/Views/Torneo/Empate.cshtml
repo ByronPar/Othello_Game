@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Empate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container body-content" style="background-color: white;">
+    @using (Html.BeginForm("Empate", "Torneo", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken();
+
+        <div class="row">
+            <input name="idRonda" value="@ViewBag.idRonda"/>
+            <div class="col-lg-6">
+                <h2>Equipo @ViewBag.equipo1Name</h2>
+                @Html.DropDownList("usuario1", (IEnumerable<SelectListItem>)ViewBag.jugadores1, "Seleccionar Jugador", htmlAttributes: new { @class = "form-control" })
+            </div>
+            <div class="col-lg-6">
+                <h2>Equipo @ViewBag.equipo2Name</h2>
+                @Html.DropDownList("usuario2", (IEnumerable<SelectListItem>)ViewBag.jugadores2, "Seleccionar Jugador", htmlAttributes: new { @class = "form-control" })
+            </div>
+            <center><input type="submit" value="Crear Partida" class="btn btn-primary" /></center>
+        </div>
+    }
+</div>
+
