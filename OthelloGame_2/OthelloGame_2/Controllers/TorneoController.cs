@@ -380,6 +380,7 @@ namespace OthelloGame_2.Controllers
                     id_torneo = id
                 };
                 db.Ronda.Add(nueva);
+                db.SaveChanges();
                 List<Equipo_Jugador> jugadores1 = db.Equipo_Jugador.Where(e => e.id_equipo == id_1).ToList();
                 List<Equipo_Jugador> jugadores2 = db.Equipo_Jugador.Where(e => e.id_equipo == id_2).ToList();
                 for (int j = 0; j < jugadores1.Count(); j++)
@@ -479,7 +480,10 @@ namespace OthelloGame_2.Controllers
                 foreach (var equipo_t_p in equipo_t_ps)
                 {
                     Partida party = db.Partida.FirstOrDefault(e => e.id_partida == equipo_t_p.id_partida && e.id_ganador == "");
-                    partidas.Add(party);
+                    if (party != null)
+                    {
+                        partidas.Add(party);
+                    }
                 }
             }
             if (Message != "")
@@ -487,6 +491,17 @@ namespace OthelloGame_2.Controllers
                 ViewBag.Message = Message;
             }
             ViewBag.NameTorneo = TorneoModificar.nombre;
+            foreach (var item in partidas)
+            {
+                List<Jugador_Partida> jugadores_partidas = new List<Jugador_Partida>();
+                foreach (var item2 in db.Jugador_Partida.Where(e=>e.id_Partida == item.id_partida))
+                {
+                    jugadores_partidas.Add(item2);
+                }
+                item.Jugador_Partida = jugadores_partidas;
+                db.Entry(item).State = EntityState.Modified;// le doy los puntos al jugador
+                db.SaveChanges();
+            }
             // ahora que se terminan de crear las partidas, retornare un listado de todas estas partidas
             return View(partidas);
         }
@@ -518,12 +533,12 @@ namespace OthelloGame_2.Controllers
                 var color2 = colores[1];
                 ViewBag.turno = "negro";
                 //datos del jugador 1
-                ViewBag.jugador1 = jugador1.Jugador.nombres;
+                ViewBag.jugador1 = jugador1.Jugador.id_usuario;
                 ViewBag.mov1 = jugador1.mov;
                 ViewBag.color1 = color1.Color.nombre;
                 ViewBag.cant_F1 = db.Ficha.Where(e => e.Color.nombre == color1.Color.nombre && e.id_partida == id).Count();
                 //datos del jugador 2
-                ViewBag.jugador2 = jugador2.Jugador.nombres;
+                ViewBag.jugador2 = jugador2.Jugador.id_usuario;
                 ViewBag.mov2 = jugador2.mov;
                 ViewBag.color2 = color2.Color.nombre;
                 ViewBag.cant_F2 = db.Ficha.Where(e => e.Color.nombre == color2.Color.nombre && e.id_partida == id).Count();
@@ -594,6 +609,10 @@ namespace OthelloGame_2.Controllers
             Ronda ronda = null;
             try
             {
+                if (rondas.Count() == 1)
+                {
+                    ronda = rondas[0];
+                }
                 for (int i = 0; i < rondas.Count(); i++)
                 {
                     if (rondas[i].noRonda > rondas[i + 1].noRonda)
@@ -601,6 +620,7 @@ namespace OthelloGame_2.Controllers
                         ronda = rondas[i];// con esto obtendre la mayor ronda que se este trabajando
                     }
                 }
+                
             }
             catch (Exception)
             {
